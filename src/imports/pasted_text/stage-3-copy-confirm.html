@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>阶段3：文案确认 - 房产AI助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: #FA8C16;
+            --brand-primary-dark: #E67A0E;
+            --brand-primary-light: #FFF7E6;
+            --color-success: #00B42A;
+            --color-success-light: #F6FFED;
+            --color-danger: #FA5151;
+            --color-danger-light: #FFF1F0;
+            --color-warning: #FF7D00;
+            --color-warning-light: #FFF7E6;
+            --color-info: #007AFF;
+            --color-info-light: #E8F3FF;
+            --color-purple: #722ED1;
+            --color-purple-light: #F7F0FF;
+            --color-title: #1D2129;
+            --color-text: #4E5969;
+            --color-sub: #86909C;
+            --color-border: #E5E6EB;
+            --color-bg: #F7F8FA;
+            --color-card: #FFFFFF;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.25s ease;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font-family);
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--color-text);
+            background: var(--color-bg);
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .page { min-height: 100vh; padding-bottom: calc(140px + env(safe-area-inset-bottom)); }
+        
+        /* 头部 */
+        .header {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #FF9500 100%);
+            padding: calc(44px + env(safe-area-inset-top)) var(--spacing-md) var(--spacing-md);
+            color: white;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        .back-btn {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: var(--radius-full);
+            cursor: pointer; border: none; color: white;
+        }
+        .header-title { font-size: 17px; font-weight: 600; flex: 1; text-align: center; }
+        .step-badge { font-size: 11px; padding: 2px 10px; background: rgba(255,255,255,0.25); border-radius: var(--radius-full); }
+
+        /* 阶段进度 */
+        .header-stage-progress {
+            margin-top: 12px;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.15);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-stage-progress .stage-dot {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            white-space: nowrap;
+        }
+        .header-stage-progress .stage-dot.active {
+            color: white;
+            font-weight: 600;
+        }
+        .header-stage-progress .stage-dot.completed {
+            color: rgba(255,255,255,0.9);
+        }
+        .header-stage-progress .stage-line {
+            width: 28px;
+            height: 2px;
+            background: rgba(255,255,255,0.5);
+            margin: 0 6px;
+            border-radius: 1px;
+        }
+        .header-stage-progress .stage-line.inactive {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* 生成中状态 */
+        .generating-card {
+            margin: 0 var(--spacing-md) var(--spacing-md);
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-purple) 0%, #8B5CF6 100%);
+            border-radius: var(--radius-xl);
+            color: white;
+            text-align: center;
+            display: none;
+        }
+        .generating-card.show { display: block; }
+        .generating-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-sm);
+        }
+        .generating-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+        }
+        .generating-spinner {
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .generating-progress {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .generating-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+        .generating-fill {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        .generating-items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* 素材参考区 */
+        .material-hint {
+            margin: 0 var(--spacing-md) var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--color-info-light);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+        }
+        .material-hint i { color: var(--color-info); font-size: 18px; margin-top: 2px; }
+        .material-hint-text { font-size: 13px; color: var(--color-info); line-height: 1.5; }
+
+        /* ========== 选择配置区域 ========== */
+        .config-section {
+            padding: 0 var(--spacing-md) var(--spacing-md);
+        }
+        .config-section.hidden { display: none; }
+
+        .config-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .config-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-sub);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .config-title i { color: var(--brand-primary); font-size: 12px; }
+
+        /* 渠道选择 - 紧凑网格布局 */
+        .channel-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .channel-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 10px 12px;
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .channel-option:active { transform: scale(0.98); }
+        .channel-option.selected {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary-light);
+        }
+
+        .channel-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+        .channel-option.selected .channel-checkbox {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary);
+        }
+        .channel-option.selected .channel-checkbox::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .channel-info { flex: 1; min-width: 0; }
+        .channel-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-title);
+        }
+        .channel-tag {
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: var(--radius-sm);
+            margin-left: 4px;
+        }
+        .channel-tag.xiaohongshu { background: #FFE7D6; color: var(--brand-primary); }
+        .channel-tag.moments { background: #FFE5F0; color: #FF6B9D; }
+        .channel-tag.wechat { background: #E8FFEA; color: var(--color-success); }
+        .channel-tag.video { background: #E8F3FF; color: var(--color-info); }
+
+        /* 视频生成方式 - 紧凑卡片 */
+        .method-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .method-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 10px 12px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .method-option:active { transform: scale(0.98); }
+        .method-option.selected {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary-light);
+        }
+
+        .method-radio {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+        .method-option.selected .method-radio {
+            border-color: var(--brand-primary);
+            background: var(--brand-primary);
+        }
+        .method-option.selected .method-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .method-info { flex: 1; display: flex; align-items: center; gap: var(--spacing-sm); }
+        .method-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-title);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .method-badge {
+            font-size: 10px;
+            padding: 1px 5px;
+            border-radius: var(--radius-sm);
+            font-weight: normal;
+        }
+        .method-badge.fast { background: #FFF3E0; color: var(--color-warning); }
+        .method-badge.normal { background: var(--color-info-light); color: var(--color-info); }
+        .method-badge.master { background: var(--color-purple-light); color: var(--color-purple); }
+        .method-desc {
+            font-size: 11px;
+            color: var(--color-sub);
+            margin-left: auto;
+        }
+
+        /* 生成按钮 */
+        .generate-section {
+            padding: var(--spacing-md);
+        }
+        .generate-section.hidden { display: none; }
+
+        .generate-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-border);
+            border: none;
+            border-radius: var(--radius-lg);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: not-allowed;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+        }
+        .generate-btn.ready {
+            background: linear-gradient(135deg, var(--color-purple) 0%, #8B5CF6 100%);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(114, 46, 209, 0.3);
+        }
+        .generate-btn.ready:active { transform: scale(0.98); }
+        .generate-btn i { font-size: 18px; }
+        .generate-btn-hint { font-size: 12px; opacity: 0.8; font-weight: normal; }
+
+        /* 已生成内容区域 */
+        .content-section { display: none; }
+        .content-section.show { display: block; }
+
+        /* 文案列表 */
+        .copywriter-list { padding: 0 var(--spacing-md); }
+
+        .toolbar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            font-size: 13px;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .toolbar-btn:active { transform: scale(0.98); }
+        .toolbar-btn i { color: var(--color-purple); }
+        
+        .copywriter-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all var(--transition-normal);
+        }
+        .copywriter-card.selected { border-color: var(--brand-primary); box-shadow: 0 0 0 4px var(--brand-primary-light); }
+        
+        .copywriter-header {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            cursor: pointer;
+        }
+        
+        .copywriter-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--brand-primary);
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+        }
+        
+        .copywriter-info { flex: 1; min-width: 0; }
+        
+        .copywriter-platform {
+            display: inline-flex; align-items: center;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            margin-bottom: var(--spacing-xs);
+        }
+        .copywriter-platform.xiaohongshu { background: #FFE7D6; color: var(--brand-primary); }
+        .copywriter-platform.wechat { background: #E8FFEA; color: var(--color-success); }
+        .copywriter-platform.moments { background: #FFE5F0; color: #FF6B9D; }
+        .copywriter-platform.video { background: #E8F3FF; color: var(--color-info); }
+        
+        .copywriter-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-title);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .copywriter-meta { font-size: 11px; color: var(--color-sub); margin-top: 2px; }
+        
+        .copywriter-expand-icon {
+            margin-left: auto;
+            margin-right: var(--spacing-sm);
+            font-size: 12px;
+            color: var(--color-sub);
+            transition: transform var(--transition-fast);
+            flex-shrink: 0;
+        }
+        .copywriter-card.expanded .copywriter-expand-icon { transform: rotate(180deg); }
+        
+        .copywriter-content { padding: 0 var(--spacing-md) var(--spacing-md); display: none; }
+        .copywriter-card.expanded .copywriter-content { display: block; }
+        
+        .copywriter-text {
+            background: var(--color-bg);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-text);
+            white-space: pre-wrap;
+        }
+        
+        .copywriter-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-xs);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            background: white;
+            font-size: 12px;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            gap: 4px;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn i { font-size: 12px; }
+
+        /* 视频卡片 */
+        .video-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+        .video-card.selected { border-color: var(--brand-primary); box-shadow: 0 0 0 4px var(--brand-primary-light); }
+        
+        .video-header {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            cursor: pointer;
+        }
+        
+        .video-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--brand-primary);
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+        }
+        
+        .video-info { flex: 1; min-width: 0; }
+        
+        .video-platform {
+            display: inline-flex; align-items: center;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            background: #E8F3FF;
+            color: var(--color-info);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .video-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-title);
+        }
+        .video-meta { font-size: 11px; color: var(--color-sub); margin-top: 2px; }
+        
+        .video-expand-icon {
+            margin-left: auto;
+            margin-right: var(--spacing-sm);
+            font-size: 12px;
+            color: var(--color-sub);
+            transition: transform var(--transition-fast);
+        }
+        .video-card.expanded .video-expand-icon { transform: rotate(180deg); }
+        
+        .video-content { display: none; padding: 0 var(--spacing-md) var(--spacing-md); }
+        .video-card.expanded .video-content { display: block; }
+
+        .video-generation-methods {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .method-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-title);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .video-script-content {
+            background: var(--color-bg);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .video-script-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-text);
+            white-space: pre-wrap;
+        }
+
+        .video-audio-section, .video-material-section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .video-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        /* 底部编辑弹窗 */
+        .edit-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99998;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .edit-modal.show { display: flex; }
+        .edit-sheet {
+            width: 100%;
+            background: white;
+            border-radius: 16px 16px 0 0;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .edit-title { font-size: 16px; font-weight: 600; color: var(--color-title); }
+        .edit-close {
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-sub); cursor: pointer;
+        }
+        .edit-content {
+            flex: 1;
+            padding: var(--spacing-md);
+            overflow-y: auto;
+        }
+        .edit-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            line-height: 1.8;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+        }
+        .edit-textarea:focus { border-color: var(--brand-primary); }
+        .edit-footer {
+            padding: var(--spacing-md);
+            padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom));
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        .edit-action-btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .edit-action-btn.cancel { background: var(--color-bg); color: var(--color-text); }
+        .edit-action-btn.save { background: var(--brand-primary); color: white; }
+
+        /* 底部操作 */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            padding: var(--spacing-md);
+            padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+        }
+        .bottom-hint { font-size: 12px; color: var(--color-sub); text-align: center; margin-bottom: var(--spacing-sm); }
+        
+        .confirm-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: var(--color-border);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-sub);
+            cursor: not-allowed;
+            transition: all var(--transition-normal);
+            display: flex; align-items: center; justify-content: center;
+            gap: var(--spacing-sm);
+        }
+        .confirm-btn.ready {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #FF9500 100%);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(250,140,22,0.3);
+        }
+        .confirm-btn:active { transform: scale(0.99); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 16px 32px;
+            border-radius: var(--radius-lg);
+            z-index: 99999;
+            font-size: 15px;
+            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            pointer-events: none;
+        }
+        @keyframes toastIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-top">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <span class="header-title">阶段3：文案确认</span>
+                <span class="step-badge">3/4</span>
+            </div>
+            <div class="header-stage-progress">
+                <span class="stage-dot completed">阶段1</span>
+                <div class="stage-line"></div>
+                <span class="stage-dot completed">阶段2</span>
+                <div class="stage-line"></div>
+                <span class="stage-dot active">阶段3</span>
+                <div class="stage-line inactive"></div>
+                <span class="stage-dot">阶段4</span>
+            </div>
+        </div>
+
+        <!-- 生成中状态 -->
+        <div class="generating-card" id="generatingBanner">
+            <div style="display:flex;justify-content:center;margin-bottom:var(--spacing-md);">
+                <div class="generating-spinner"></div>
+            </div>
+            <div style="font-size:16px;font-weight:600;margin-bottom:var(--spacing-sm);">AI生成中...</div>
+            <div style="font-size:12px;opacity:0.8;margin-bottom:var(--spacing-md);" id="generatingProgress">正在生成 0%</div>
+            <div class="generating-bar">
+                <div class="generating-fill" id="generatingFill" style="width:0%;"></div>
+            </div>
+            <div id="generatingItems" style="display:flex;flex-direction:column;gap:4px;margin-top:var(--spacing-md);font-size:12px;opacity:0.9;">
+                <!-- 动态生成项 -->
+            </div>
+        </div>
+
+        <!-- 素材参考提示 -->
+        <div class="material-hint" id="materialHint">
+            <i class="fa fa-folder-open"></i>
+            <div class="material-hint-text">
+                基于阶段2上传的<span class="font-semibold" id="materialCount">-</span>个素材点位进行AI生成，包括沙盘照片、样板间视频、区位配套等
+            </div>
+        </div>
+
+        <!-- ========== 选择配置区域 ========== -->
+        <div class="config-section" id="configSection">
+            <!-- 渠道选择 -->
+            <div class="config-card">
+                <div class="config-title">
+                    <i class="fa fa-check-square"></i>
+                    <span>选择生成渠道</span>
+                </div>
+                <div class="channel-options">
+                    <div class="channel-option selected" onclick="toggleChannel('xiaohongshu')" id="channel_xiaohongshu">
+                        <div class="channel-checkbox"></div>
+                        <div class="channel-info">
+                            <div class="channel-name">小红书</div>
+                        </div>
+                        <span class="channel-tag xiaohongshu">~200字</span>
+                    </div>
+                    <div class="channel-option" onclick="toggleChannel('moments')" id="channel_moments">
+                        <div class="channel-checkbox"></div>
+                        <div class="channel-info">
+                            <div class="channel-name">朋友圈</div>
+                        </div>
+                        <span class="channel-tag moments">~100字</span>
+                    </div>
+                    <div class="channel-option" onclick="toggleChannel('wechat')" id="channel_wechat">
+                        <div class="channel-checkbox"></div>
+                        <div class="channel-info">
+                            <div class="channel-name">公众号</div>
+                        </div>
+                        <span class="channel-tag wechat">~500字</span>
+                    </div>
+                    <div class="channel-option selected" onclick="toggleChannel('video')" id="channel_video">
+                        <div class="channel-checkbox"></div>
+                        <div class="channel-info">
+                            <div class="channel-name">短视频</div>
+                        </div>
+                        <span class="channel-tag video">~60秒</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视频生成方式（仅视频选中时显示） -->
+            <div class="config-card" id="videoMethodCard">
+                <div class="config-title">
+                    <i class="fa fa-video-camera"></i>
+                    <span>视频生成方式</span>
+                </div>
+                <div class="method-options">
+                    <!-- 闪电生成 -->
+                    <div class="method-option selected" onclick="selectMethod('lightning')" id="method_lightning">
+                        <div class="method-radio"></div>
+                        <div class="method-info">
+                            <div class="method-name">
+                                闪电生成
+                                <span class="method-badge fast">快速</span>
+                            </div>
+                            <div class="method-desc">直接使用 · 无需等待</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 普通生成 -->
+                    <div class="method-option" onclick="selectMethod('normal')" id="method_normal">
+                        <div class="method-radio"></div>
+                        <div class="method-info">
+                            <div class="method-name">
+                                普通生成
+                                <span class="method-badge normal">推荐</span>
+                            </div>
+                            <div class="method-desc">AI混剪 · 支持音频</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 大师生成 -->
+                    <div class="method-option" onclick="selectMethod('master')" id="method_master">
+                        <div class="method-radio"></div>
+                        <div class="method-info">
+                            <div class="method-name">
+                                大师生成
+                                <span class="method-badge master">自定义</span>
+                            </div>
+                            <div class="method-desc">自定义脚本 · 人像替换</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生成按钮 -->
+        <div class="generate-section" id="generateSection">
+            <button class="generate-btn ready" id="generateBtn" onclick="startGenerate()">
+                <i class="fa fa-magic"></i>
+                <span id="generateBtnText">生成选中的文案</span>
+                <span class="generate-btn-hint" id="generateBtnHint">小红书、朋友圈、公众号、短视频</span>
+            </button>
+        </div>
+
+        <!-- ========== 已生成内容区域 ========== -->
+        <div class="content-section" id="contentSection">
+            <!-- 工具栏 -->
+            <div style="display:flex;justify-content:flex-end;padding:0 var(--spacing-md);margin-bottom:var(--spacing-sm);">
+                <button class="toolbar-btn" onclick="showConfig()">
+                    <i class="fa fa-plus"></i>
+                    <span>重新配置</span>
+                </button>
+            </div>
+
+            <!-- 文案列表 -->
+            <div class="copywriter-list" id="copywriterList">
+                <!-- 小红书 -->
+                <div class="copywriter-card" id="card_xiaohongshu" style="display:none;">
+                    <div class="copywriter-header" onclick="toggleCard('xiaohongshu')">
+                        <input type="checkbox" class="copywriter-checkbox" id="check_xiaohongshu" onclick="event.stopPropagation(); selectCopy('xiaohongshu')">
+                        <div class="copywriter-info">
+                            <div class="copywriter-platform xiaohongshu">小红书</div>
+                            <div class="copywriter-title" id="title_xiaohongshu">中海汇德里 | 探盘日记</div>
+                            <div class="copywriter-meta">约200字</div>
+                        </div>
+                        <i class="fa fa-chevron-down copywriter-expand-icon"></i>
+                    </div>
+                    <div class="copywriter-content">
+                        <div class="copywriter-text" id="content_xiaohongshu"></div>
+                        <div class="copywriter-actions">
+                            <button class="action-btn" onclick="copyText('xiaohongshu')"><i class="fa fa-copy"></i>复制</button>
+                            <button class="action-btn" onclick="regenerateCopy('xiaohongshu')"><i class="fa fa-refresh"></i>重生</button>
+                            <button class="action-btn" onclick="openEditModal('xiaohongshu')"><i class="fa fa-edit"></i>编辑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 朋友圈 -->
+                <div class="copywriter-card" id="card_moments" style="display:none;">
+                    <div class="copywriter-header" onclick="toggleCard('moments')">
+                        <input type="checkbox" class="copywriter-checkbox" id="check_moments" onclick="event.stopPropagation(); selectCopy('moments')">
+                        <div class="copywriter-info">
+                            <div class="copywriter-platform moments">朋友圈</div>
+                            <div class="copywriter-title" id="title_moments">中海汇德里 | 火热认筹中</div>
+                            <div class="copywriter-meta">约100字</div>
+                        </div>
+                        <i class="fa fa-chevron-down copywriter-expand-icon"></i>
+                    </div>
+                    <div class="copywriter-content">
+                        <div class="copywriter-text" id="content_moments"></div>
+                        <div class="copywriter-actions">
+                            <button class="action-btn" onclick="copyText('moments')"><i class="fa fa-copy"></i>复制</button>
+                            <button class="action-btn" onclick="regenerateCopy('moments')"><i class="fa fa-refresh"></i>重生</button>
+                            <button class="action-btn" onclick="openEditModal('moments')"><i class="fa fa-edit"></i>编辑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 公众号 -->
+                <div class="copywriter-card" id="card_wechat" style="display:none;">
+                    <div class="copywriter-header" onclick="toggleCard('wechat')">
+                        <input type="checkbox" class="copywriter-checkbox" id="check_wechat" onclick="event.stopPropagation(); selectCopy('wechat')">
+                        <div class="copywriter-info">
+                            <div class="copywriter-platform wechat">公众号</div>
+                            <div class="copywriter-title" id="title_wechat">【开盘预告】中海汇德里震撼来袭</div>
+                            <div class="copywriter-meta">约500字</div>
+                        </div>
+                        <i class="fa fa-chevron-down copywriter-expand-icon"></i>
+                    </div>
+                    <div class="copywriter-content">
+                        <div class="copywriter-text" id="content_wechat"></div>
+                        <div class="copywriter-actions">
+                            <button class="action-btn" onclick="copyText('wechat')"><i class="fa fa-copy"></i>复制</button>
+                            <button class="action-btn" onclick="regenerateCopy('wechat')"><i class="fa fa-refresh"></i>重生</button>
+                            <button class="action-btn" onclick="openEditModal('wechat')"><i class="fa fa-edit"></i>编辑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 视频卡片 -->
+                <div class="video-card" id="card_video" style="display:none;">
+                    <div class="video-header" onclick="toggleVideoCard()">
+                        <input type="checkbox" class="video-checkbox" id="check_video" onclick="event.stopPropagation(); selectCopy('video')">
+                        <div class="video-info">
+                            <div class="video-platform">短视频</div>
+                            <div class="video-title" id="title_video">中海汇德里 | 楼盘介绍</div>
+                            <div class="video-meta" id="videoMeta">约60秒 · 系统视频</div>
+                        </div>
+                        <i class="fa fa-chevron-down video-expand-icon"></i>
+                    </div>
+                    <div class="video-content">
+                        <!-- 视频预览区 -->
+                        <div class="video-preview-section" id="videoPreviewSection">
+                            <div style="background:var(--color-bg);border-radius:var(--radius-lg);padding:var(--spacing-md);margin-bottom:var(--spacing-md);">
+                                <div style="display:flex;align-items:center;justify-content:center;height:120px;background:#000;border-radius:var(--radius-md);margin-bottom:var(--spacing-md);position:relative;">
+                                    <i class="fa fa-play-circle" style="font-size:48px;color:white;opacity:0.8;"></i>
+                                    <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.6);color:white;font-size:11px;padding:2px 6px;border-radius:4px;">00:45/01:00</div>
+                                </div>
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <div style="font-size:13px;color:var(--color-sub);">系统已为您准备好探盘视频</div>
+                                    <button class="action-btn" onclick="showToast('查看视频')"><i class="fa fa-play"></i>预览</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 模板选择 -->
+                        <div class="template-section" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--color-bg);border-radius:var(--radius-md);margin-bottom:var(--spacing-sm);">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <i class="fa fa-film" style="color:var(--color-info);"></i>
+                                <span style="font-size:13px;color:var(--color-title);">视频模板</span>
+                            </div>
+                            <button style="padding:6px 12px;background:var(--color-info);color:white;border:none;border-radius:6px;font-size:12px;" onclick="selectTemplate()">
+                                <i class="fa fa-th-large"></i> 选择模板
+                            </button>
+                        </div>
+
+                        <!-- 音频上传（普通/大师生成显示） -->
+                        <div class="audio-upload-section" id="audioUploadSection" style="display:none;margin-bottom:var(--spacing-sm);">
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--color-bg);border-radius:var(--radius-md);">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <i class="fa fa-microphone" style="color:var(--color-purple);"></i>
+                                    <span style="font-size:13px;color:var(--color-title);">配音音频</span>
+                                </div>
+                                <button style="padding:6px 12px;background:var(--color-purple);color:white;border:none;border-radius:6px;font-size:12px;" onclick="showToast('请上传配音文件')">
+                                    <i class="fa fa-upload"></i> 上传
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 人像上传（仅大师生成显示） -->
+                        <div class="portrait-upload-section" id="portraitUploadSection" style="display:none;margin-bottom:var(--spacing-md);">
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--color-bg);border-radius:var(--radius-md);">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <i class="fa fa-user-circle" style="color:var(--color-warning);"></i>
+                                    <span style="font-size:13px;color:var(--color-title);">人像图片</span>
+                                </div>
+                                <button style="padding:6px 12px;background:var(--color-warning);color:white;border:none;border-radius:6px;font-size:12px;" onclick="showToast('请上传人像图片')">
+                                    <i class="fa fa-upload"></i> 上传
+                                </button>
+                            </div>
+                            <div style="font-size:11px;color:var(--color-sub);margin-top:4px;padding-left:4px;">用于AI主播人脸替换，支持 JPG、PNG 格式</div>
+                        </div>
+                        
+                        <!-- 视频脚本区（仅大师生成显示） -->
+                        <div class="video-script-section" id="videoScriptSection" style="display:none;">
+                            <div class="video-script-content">
+                                <div class="video-script-text" id="content_video"></div>
+                            </div>
+                            <div class="video-actions" style="margin-top:var(--spacing-md);">
+                                <button class="action-btn" onclick="copyText('video')"><i class="fa fa-copy"></i>复制脚本</button>
+                                <button class="action-btn" onclick="regenerateCopy('video')"><i class="fa fa-refresh"></i>重生</button>
+                                <button class="action-btn" onclick="openEditModal('video')"><i class="fa fa-edit"></i>编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部操作栏 -->
+        <div class="bottom-bar" id="bottomBar">
+            <div class="bottom-hint" id="bottomHint">请选择要使用的文案版本（可多选）</div>
+            <button class="confirm-btn" id="confirmBtn" onclick="handleConfirm()">
+                <i class="fa fa-check"></i>
+                <span>确认并提交</span>
+            </button>
+        </div>
+
+        <!-- 编辑弹窗 -->
+        <div class="edit-modal" id="editModal">
+            <div class="edit-sheet">
+                <div class="edit-header">
+                    <span class="edit-title">编辑文案</span>
+                    <div class="edit-close" onclick="closeEditModal()"><i class="fa fa-times"></i></div>
+                </div>
+                <div class="edit-content">
+                    <textarea class="edit-textarea" id="editTextarea"></textarea>
+                </div>
+                <div class="edit-footer">
+                    <button class="edit-action-btn cancel" onclick="closeEditModal()">取消</button>
+                    <button class="edit-action-btn save" onclick="saveEditModal()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面状态
+        let selectedChannels = new Set(['xiaohongshu', 'video']);
+        let selectedVideoMethod = 'lightning';
+        let selectedCopies = new Set();
+        let expandedCard = null;
+        let isGenerated = false;
+        let houseName = '';
+
+        // 渠道名称映射
+        const CHANNEL_NAMES = {
+            'xiaohongshu': '小红书',
+            'moments': '朋友圈',
+            'wechat': '公众号',
+            'video': '短视频'
+        };
+
+        // 默认内容
+        const CONTENTS = {
+            'xiaohongshu': `🏠 【探盘日记 | 中海汇德里】
+
+终于来打卡了朝阳区这个超火的新盘！
+
+📍 项目位置：朝阳区建国路88号
+💰 参考价格：68,000元/m²
+🏢 开发商：央企中海品质保障
+
+✨ 最吸引我的几个点：
+
+1️⃣ 智能化社区
+人脸识别系统、智能梯控...科技感满满！
+
+2️⃣ 户型设计超赞
+南向大开间，采光绝了！
+
+3️⃣ 配套成熟
+地铁站步行5分钟，商业教育医疗全覆盖
+
+📝 小贴士：项目即将开盘，感兴趣的朋友建议提前预约参观哦！`,
+
+            'moments': `🔥【中海汇德里】火热认筹中！
+
+央企品质·智能社区·地铁上盖
+
+🏠 68,000元/m²起
+📍 朝阳区建国路88号
+
+感兴趣的朋友欢迎私信🙋‍♂️`,
+
+            'wechat': `【开盘预告】中海汇德里震撼来袭
+
+备受瞩目的朝阳区优质新盘——中海汇德里即将盛大开盘！
+
+项目简介：
+中海汇德里是由央企中海倾力打造的品质住宅项目，位于朝阳区核心地段。
+
+核心亮点：
+• 智能化社区系统
+• 优质户型设计
+• 完善周边配套
+
+基础信息：
+• 物业类型：住宅
+• 参考价格：68,000元/m²
+• 开盘时间：2026年4月
+
+VIP认筹通道已开启，欢迎私信咨询！`,
+
+            'video': `【开场 0-5秒】
+画面：营销中心外景，阳光明媚
+配音：hello大家好，今天带大家探访的是中海汇德里...
+
+【沙盘讲解 5-20秒】
+画面：沙盘全景镜头
+配音：项目总建筑面积约15万方...
+
+【样板间展示 20-45秒】
+画面：样板间各房间穿过镜头
+配音：走进样板间，首先映入眼帘的是南向客厅...
+
+【区位优势 45-55秒】
+画面：区位图动画
+配音：项目周边商业、教育、医疗配套成熟...
+
+【结尾呼吁 55-60秒】
+画面：项目效果图+二维码
+配音：感兴趣的朋友欢迎私信预约样板间参观！`
+        };
+
+        // 初始化
+        function init() {
+            const params = new URLSearchParams(window.location.search);
+            houseName = params.get('houseName') || '楼盘名称';
+            materialCount = parseInt(params.get('materialCount')) || 6;
+            document.getElementById('materialCount').textContent = materialCount;
+            updateGenerateBtn();
+            updateVideoMethodCard();
+        }
+
+        // 切换渠道选择
+        function toggleChannel(channel) {
+            const el = document.getElementById('channel_' + channel);
+            if (selectedChannels.has(channel)) {
+                selectedChannels.delete(channel);
+                el.classList.remove('selected');
+            } else {
+                selectedChannels.add(channel);
+                el.classList.add('selected');
+            }
+            updateGenerateBtn();
+            updateVideoMethodCard();
+        }
+
+        // 更新生成按钮状态
+        function updateGenerateBtn() {
+            const btn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('generateBtnText');
+            const btnHint = document.getElementById('generateBtnHint');
+            
+            if (selectedChannels.size === 0) {
+                btn.classList.remove('ready');
+                btnText.textContent = '请选择生成渠道';
+                btnHint.textContent = '请至少选择一个渠道';
+            } else {
+                btn.classList.add('ready');
+                const channelNames = Array.from(selectedChannels).map(c => CHANNEL_NAMES[c]).join('、');
+                btnText.textContent = `生成选中的文案`;
+                btnHint.textContent = `将为您生成${channelNames}`;
+            }
+        }
+
+        // 更新视频方式卡片显示
+        function updateVideoMethodCard() {
+            const videoCard = document.getElementById('videoMethodCard');
+            if (selectedChannels.has('video')) {
+                videoCard.style.display = 'block';
+            } else {
+                videoCard.style.display = 'none';
+            }
+        }
+
+        // 选择视频生成方式
+        function selectMethod(method) {
+            selectedVideoMethod = method;
+            document.querySelectorAll('#videoMethodCard .method-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.getElementById('method_' + method)?.classList.add('selected');
+        }
+
+        // 开始生成
+        function startGenerate() {
+            if (selectedChannels.size === 0) {
+                showToast('请至少选择一个渠道');
+                return;
+            }
+
+            // 显示生成中状态（不隐藏配置区域）
+            document.getElementById('generatingBanner').classList.add('show');
+            document.getElementById('generateSection').classList.add('hidden');
+            document.getElementById('contentSection').classList.add('show');
+            document.getElementById('materialHint').style.display = 'none';
+
+            // 构建生成项
+            const channels = Array.from(selectedChannels);
+            const genItems = channels.map((c, i) => `<div id="genItem${i}" style="display:flex;align-items:center;gap:8px;"><i class="fa fa-circle-o" style="font-size:10px;"></i> ${CHANNEL_NAMES[c]}</div>`).join('');
+            document.getElementById('generatingItems').innerHTML = genItems;
+
+            // 模拟生成进度
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('generatingBanner').classList.remove('show');
+                        showGeneratedResults();
+                    }, 500);
+                }
+                
+                document.getElementById('generatingFill').style.width = progress + '%';
+                document.getElementById('generatingProgress').textContent = '正在生成 ' + Math.round(progress) + '%';
+                
+                // 更新生成项状态
+                const itemIndex = Math.floor(progress / 100 * channels.length);
+                for (let i = 0; i < channels.length; i++) {
+                    const el = document.getElementById('genItem' + i);
+                    if (el) {
+                        if (i < itemIndex) {
+                            el.innerHTML = '<i class="fa fa-check-circle" style="color:#00B42A;"></i> ' + CHANNEL_NAMES[channels[i]];
+                        } else if (i === itemIndex && progress < 100) {
+                            el.innerHTML = '<i class="fa fa-spinner fa-spin"></i> ' + CHANNEL_NAMES[channels[i]];
+                        }
+                    }
+                }
+            }, 200);
+        }
+
+        // 显示生成结果
+        function showGeneratedResults() {
+            selectedChannels.forEach(channel => {
+                const card = document.getElementById('card_' + channel);
+                if (card) {
+                    card.style.display = 'block';
+                    card.classList.add('revealed');
+                    
+                    if (channel === 'video') {
+                        // 视频卡片特殊处理
+                        const titleEl = document.getElementById('title_video');
+                        const videoMeta = document.getElementById('videoMeta');
+                        if (titleEl) titleEl.textContent = houseName + ' | 楼盘介绍';
+                        
+                        // 根据生成方式显示不同内容
+                        updateVideoCardContent();
+                    } else {
+                        const titleEl = document.getElementById('title_' + channel);
+                        const contentEl = document.getElementById('content_' + channel);
+                        if (titleEl) titleEl.textContent = houseName + ' | ' + (channel === 'moments' ? '火热认筹中' : channel === 'wechat' ? '开盘预告' : '探盘日记');
+                        if (contentEl) contentEl.textContent = CONTENTS[channel];
+                    }
+                }
+            });
+
+            // 默认展开第一个
+            if (selectedChannels.size > 0) {
+                const firstChannel = Array.from(selectedChannels)[0];
+                if (firstChannel === 'video') {
+                    toggleVideoCard();
+                } else {
+                    toggleCard(firstChannel);
+                }
+            }
+
+            isGenerated = true;
+            selectedCopies = new Set(selectedChannels);
+            // 视频不需要选择（自动加入）
+            updateConfirmBtn();
+            updateBottomBar();
+        }
+
+        // 更新视频卡片内容显示
+        function updateVideoCardContent() {
+            const previewSection = document.getElementById('videoPreviewSection');
+            const scriptSection = document.getElementById('videoScriptSection');
+            const audioSection = document.getElementById('audioUploadSection');
+            const portraitSection = document.getElementById('portraitUploadSection');
+            const videoMeta = document.getElementById('videoMeta');
+            const contentEl = document.getElementById('content_video');
+            
+            if (selectedVideoMethod === 'master') {
+                // 大师生成：显示脚本 + 音频上传 + 人像上传
+                previewSection.style.display = 'block';
+                audioSection.style.display = 'block';
+                portraitSection.style.display = 'block';
+                scriptSection.style.display = 'block';
+                if (contentEl) contentEl.textContent = CONTENTS.video;
+            } else if (selectedVideoMethod === 'normal') {
+                // 普通生成：显示视频预览 + 音频上传
+                previewSection.style.display = 'block';
+                audioSection.style.display = 'block';
+                portraitSection.style.display = 'none';
+                scriptSection.style.display = 'none';
+            } else {
+                // 闪电生成：只显示视频预览
+                previewSection.style.display = 'block';
+                audioSection.style.display = 'none';
+                portraitSection.style.display = 'none';
+                scriptSection.style.display = 'none';
+            }
+            
+            // 更新元数据
+            if (videoMeta) {
+                const methodLabels = {
+                    'lightning': '约60秒 · 系统视频 · 闪电生成',
+                    'normal': '约60秒 · 系统视频 + 音频',
+                    'master': '约60秒 · 脚本 + 人像'
+                };
+                videoMeta.textContent = methodLabels[selectedVideoMethod];
+            }
+        }
+        
+        // 选择视频模板
+        function selectTemplate() {
+            showToast('跳转到视频模板选择页');
+            setTimeout(() => {
+                // 模拟跳转模板页后返回
+                // location.href = 'video-template.html?from=confirm-script';
+            }, 500);
+        }
+
+        // 显示配置区域
+        function showConfig() {
+            document.getElementById('generatingBanner').classList.remove('show');
+            document.getElementById('configSection').classList.remove('hidden');
+            document.getElementById('generateSection').classList.remove('hidden');
+            document.getElementById('contentSection').classList.remove('show');
+            document.getElementById('materialHint').style.display = 'flex';
+        }
+
+        // 切换卡片展开
+        function toggleCard(type) {
+            const card = document.getElementById('card_' + type);
+            if (!card || card.style.display === 'none') return;
+            
+            if (expandedCard === type) {
+                card.classList.remove('expanded');
+                expandedCard = null;
+            } else {
+                if (expandedCard) {
+                    document.getElementById('card_' + expandedCard)?.classList.remove('expanded');
+                }
+                card.classList.add('expanded');
+                expandedCard = type;
+            }
+        }
+
+        function toggleVideoCard() {
+            const card = document.getElementById('card_video');
+            if (!card || card.style.display === 'none') return;
+            
+            if (card.classList.contains('expanded')) {
+                card.classList.remove('expanded');
+            } else {
+                card.classList.add('expanded');
+            }
+        }
+
+        // 选择文案
+        function selectCopy(type) {
+            const checkbox = document.getElementById('check_' + type);
+            if (type === 'video') {
+                // 视频自动选中，不允许取消
+                checkbox.checked = true;
+                selectedCopies.add(type);
+            } else {
+                if (checkbox.checked) {
+                    selectedCopies.add(type);
+                } else {
+                    selectedCopies.delete(type);
+                }
+            }
+            updateConfirmBtn();
+        }
+
+        // 更新确认按钮
+        function updateConfirmBtn() {
+            const btn = document.getElementById('confirmBtn');
+            const hint = document.getElementById('bottomHint');
+            
+            if (selectedCopies.size > 0) {
+                btn.classList.add('ready');
+                const textCount = selectedCopies.size - (selectedCopies.has('video') ? 1 : 0);
+                let hintText = '';
+                if (selectedCopies.has('video') && textCount > 0) {
+                    hintText = `已选择 ${textCount} 个文案 + 视频`;
+                } else if (selectedCopies.has('video')) {
+                    hintText = `已选择视频`;
+                } else {
+                    hintText = `已选择 ${textCount} 个文案`;
+                }
+                hint.textContent = hintText;
+            } else {
+                btn.classList.remove('ready');
+                hint.textContent = '请选择要使用的文案版本';
+            }
+        }
+
+        // 更新底部栏
+        function updateBottomBar() {
+            const bottomBar = document.getElementById('bottomBar');
+            if (isGenerated) {
+                bottomBar.style.display = 'block';
+            }
+        }
+
+        // 重新生成单个
+        function regenerateCopy(type) {
+            if (type === 'video') {
+                // 视频只能重新生成脚本（仅大师生成）
+                if (selectedVideoMethod === 'master') {
+                    const contentEl = document.getElementById('content_video');
+                    if (contentEl) {
+                        contentEl.textContent = '正在重新生成脚本...';
+                        setTimeout(() => {
+                            contentEl.textContent = CONTENTS.video;
+                            showToast('视频脚本已重新生成');
+                        }, 1500);
+                    }
+                } else {
+                    showToast('闪电/普通生成不支持重新生成脚本');
+                }
+            } else {
+                const contentEl = document.getElementById('content_' + type);
+                if (contentEl) {
+                    contentEl.textContent = '正在重新生成...';
+                    setTimeout(() => {
+                        contentEl.textContent = CONTENTS[type];
+                        showToast(CHANNEL_NAMES[type] + '已重新生成');
+                    }, 1500);
+                }
+            }
+        }
+
+        // 复制文本
+        function copyText(type) {
+            if (type === 'video' && selectedVideoMethod !== 'master') {
+                showToast('闪电/普通生成无脚本可复制');
+                return;
+            }
+            const contentEl = document.getElementById('content_' + type);
+            if (contentEl && contentEl.textContent) {
+                navigator.clipboard.writeText(contentEl.textContent).then(() => {
+                    showToast('已复制到剪贴板');
+                }).catch(() => {
+                    showToast('复制失败');
+                });
+            }
+        }
+
+        // 编辑弹窗
+        let currentEditType = null;
+
+        function openEditModal(type) {
+            event.stopPropagation();
+            currentEditType = type;
+            const contentEl = document.getElementById('content_' + type);
+            document.getElementById('editTextarea').value = contentEl?.textContent || '';
+            document.getElementById('editModal').classList.add('show');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+            currentEditType = null;
+        }
+
+        function saveEditModal() {
+            if (currentEditType) {
+                const contentEl = document.getElementById('content_' + currentEditType);
+                if (contentEl) {
+                    contentEl.textContent = document.getElementById('editTextarea').value;
+                }
+            }
+            closeEditModal();
+            showToast('保存成功');
+        }
+
+        // 确认提交
+        function handleConfirm() {
+            if (selectedCopies.size === 0) {
+                showToast('请至少选择一个文案');
+                return;
+            }
+            showToast('已确认' + selectedCopies.size + '个文案，准备提交...');
+            setTimeout(() => {
+                location.href = 'confirm-cover.html?task=TASK001&step=3';
+            }, 1000);
+        }
+
+        function goBack() {
+            history.back();
+        }
+
+        // Toast
+        function showToast(msg) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        init();
+    </script>
+</body>
+</html>
