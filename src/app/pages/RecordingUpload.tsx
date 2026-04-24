@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Mic, Shield, Info, ChevronRight, Check, X, Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 export default function RecordingUpload() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -17,6 +18,18 @@ export default function RecordingUpload() {
     size: null,
     duration: null
   });
+
+  // 接收从选择页面返回的数据
+  useEffect(() => {
+    if (location.state) {
+      if (location.state.selectedBuilding) {
+        setBuilding(location.state.selectedBuilding);
+      }
+      if (location.state.selectedCustomer) {
+        setCustomer(location.state.selectedCustomer);
+      }
+    }
+  }, [location.state]);
 
   const handleSelectFile = () => {
     // 模拟文件选择
@@ -75,23 +88,11 @@ export default function RecordingUpload() {
   };
 
   const goToBuildingSelect = () => {
-    // 模拟选择楼盘
-    const mockBuilding = {
-      id: '1',
-      name: '中海汇德里',
-      price: '35000元/㎡'
-    };
-    setBuilding(mockBuilding);
+    navigate('/recording/building-select');
   };
 
   const goToCustomerSelect = () => {
-    // 模拟选择客户
-    const mockCustomer = {
-      id: '1',
-      name: '张三',
-      phone: '138****1234'
-    };
-    setCustomer(mockCustomer);
+    navigate('/recording/customer-select');
   };
 
   const clearBuilding = () => {

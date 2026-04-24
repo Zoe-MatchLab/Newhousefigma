@@ -20,6 +20,8 @@ import CustomerDetail from './pages/CustomerDetail';
 import CustomerAdd from './pages/CustomerAdd';
 import CustomerEdit from './pages/CustomerEdit';
 import CustomerRecordList from './pages/CustomerRecordList';
+import BuildingSelect from './pages/BuildingSelect';
+import CustomerSelect from './pages/CustomerSelect';
 
 export const router = createBrowserRouter([
   {
@@ -105,5 +107,13 @@ export const router = createBrowserRouter([
   {
     path: '/customer/record-list',
     Component: CustomerRecordList,
+  },
+  {
+    path: '/recording/building-select',
+    Component: BuildingSelect,
+  },
+  {
+    path: '/recording/customer-select',
+    Component: CustomerSelect,
   },
 ]);
