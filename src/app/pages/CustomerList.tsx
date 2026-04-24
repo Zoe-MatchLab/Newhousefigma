@@ -88,40 +88,6 @@ export default function CustomerList() {
         </div>
       </div>
 
-      {/* 筛选标签 */}
-      <div className="flex gap-2 px-4 py-2 bg-white overflow-x-auto">
-        <button
-          onClick={() => filterByTag('')}
-          className={`flex-shrink-0 px-4 py-1.5 rounded-full text-[13px] transition-colors ${
-            activeFilter === '' ? 'bg-[#FFF7E6] text-[#FA8C16] border border-[#FA8C16]' : 'bg-[#F7F8FA] text-[#4E5969]'
-          }`}
-        >
-          全部
-        </button>
-        <button
-          onClick={() => filterByTag('today')}
-          className={`flex-shrink-0 px-4 py-1.5 rounded-full text-[13px] transition-colors ${
-            activeFilter === 'today' ? 'bg-[#FFF7E6] text-[#FA8C16] border border-[#FA8C16]' : 'bg-[#F7F8FA] text-[#4E5969]'
-          }`}
-        >
-          今日新增
-        </button>
-        <button
-          onClick={() => filterByTag('week')}
-          className={`flex-shrink-0 px-4 py-1.5 rounded-full text-[13px] transition-colors ${
-            activeFilter === 'week' ? 'bg-[#FFF7E6] text-[#FA8C16] border border-[#FA8C16]' : 'bg-[#F7F8FA] text-[#4E5969]'
-          }`}
-        >
-          本周新增
-        </button>
-        <button
-          onClick={showFilterMenu}
-          className="flex-shrink-0 px-3 py-1.5 rounded-full text-[13px] bg-[#F7F8FA] text-[#86909C] flex items-center gap-1"
-        >
-          <Sliders className="w-4 h-4" />
-          筛选
-        </button>
-      </div>
 
       {/* 列表提示 */}
       <div className="text-center py-2 text-[12px] text-[#86909C] bg-[#F7F8FA]">
@@ -193,8 +159,6 @@ export default function CustomerList() {
           <span className="text-[16px] font-semibold">新增客户</span>
         </button>
       </div>
-
-      <TabBar />
     </div>
   );
 }
