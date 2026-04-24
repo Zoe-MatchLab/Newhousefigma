@@ -513,7 +513,7 @@ export default function TaskList() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/tasks/${task.id}/audio`);
+                          navigate('/recording/upload');
                         }}
                         className="w-full flex items-center justify-between p-3 bg-[#E8F5E9] rounded-lg hover:bg-[#AFF0B5] transition-colors"
                       >

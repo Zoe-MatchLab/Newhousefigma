@@ -122,7 +122,7 @@ export default function ServiceTools() {
       image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=336&h=326&fit=crop',
       gradient: 'from-[rgba(22,93,255,0.6)] to-[rgba(22,93,255,0.85)]',
       size: 'medium',
-      onClick: () => navigate('/audio-analysis')
+      onClick: () => navigate('/recording/list')
     }
   ];
 

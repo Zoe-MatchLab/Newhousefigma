@@ -12,6 +12,9 @@ import PointDataCollection from './pages/PointDataCollection';
 import ContentGeneration from './pages/ContentGeneration';
 import MediaGeneration from './pages/MediaGeneration';
 import ServiceTools from './pages/ServiceTools';
+import RecordingList from './pages/RecordingList';
+import RecordingUpload from './pages/RecordingUpload';
+import RecordingResult from './pages/RecordingResult';
 
 export const router = createBrowserRouter([
   {
@@ -65,5 +68,17 @@ export const router = createBrowserRouter([
   {
     path: '/tasks/:id/audio',
     Component: AudioTask,
+  },
+  {
+    path: '/recording/list',
+    Component: RecordingList,
+  },
+  {
+    path: '/recording/upload',
+    Component: RecordingUpload,
+  },
+  {
+    path: '/recording/result/:id',
+    Component: RecordingResult,
   },
 ]);
