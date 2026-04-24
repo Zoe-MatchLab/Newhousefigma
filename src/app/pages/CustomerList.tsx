@@ -49,6 +49,12 @@ export default function CustomerList() {
     navigate(`/customer/detail/${customerId}`);
   };
 
+  const goToRecordList = (customerId: string, customerName: string) => {
+    navigate('/customer/record-list', {
+      search: `?customerId=${customerId}&name=${encodeURIComponent(customerName)}`
+    });
+  };
+
   const addCustomer = () => {
     navigate('/customer/add');
   };
@@ -148,13 +154,28 @@ export default function CustomerList() {
                     </div>
                     <div className="text-[13px] text-[#86909C] mt-1">{customer.phone}</div>
                   </div>
-                  <span className="px-3 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] font-medium rounded-full">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToRecordList(customer.id, customer.name);
+                    }}
+                    className="px-3 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] font-medium rounded-full hover:bg-[#FFE6BF] transition-colors"
+                  >
                     {customer.recordCount}条录音
-                  </span>
+                  </button>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[12px] text-[#86909C]">创建于 {customer.createTime}</span>
-                  <span className="text-[12px] text-[#FA8C16] opacity-0 transition-all">查看详情</span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToDetail(customer.id);
+                    }}
+                    className="text-[12px] text-[#FA8C16] hover:opacity-100 transition-all flex items-center gap-1"
+                  >
+                    查看详情
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
                 </div>
               </div>
             ))}
