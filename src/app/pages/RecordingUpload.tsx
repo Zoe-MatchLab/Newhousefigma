@@ -352,26 +352,6 @@ export default function RecordingUpload() {
         </div>
       </div>
 
-      {/* 隐私确认 */}
-      <div className="bg-white p-4 flex items-center justify-between gap-3">
-        <label 
-          className="flex items-center gap-2 cursor-pointer text-[14px] text-[#4E5969]"
-          onClick={() => setPrivacyChecked(!privacyChecked)}
-        >
-          <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${privacyChecked ? 'bg-[#FA8C16] border-[#FA8C16]' : 'border-[#E5E6EB]'}`}>
-            {privacyChecked && <Check className="w-3 h-3 text-white" />}
-          </div>
-          <span>仅本人私密使用</span>
-        </label>
-        <button 
-          className="flex items-center gap-1 text-[12px] text-[#FA8C16]"
-          onClick={() => setShowPrivacyModal(true)}
-        >
-          <span>查看详情</span>
-          <ChevronRight className="w-3 h-3" />
-        </button>
-      </div>
-
       {/* 提交按钮 */}
       <div className="p-4 fixed bottom-0 left-0 right-0 bg-[#F7F8FA]">
         <button 

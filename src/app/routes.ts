@@ -15,6 +15,11 @@ import ServiceTools from './pages/ServiceTools';
 import RecordingList from './pages/RecordingList';
 import RecordingUpload from './pages/RecordingUpload';
 import RecordingResult from './pages/RecordingResult';
+import CustomerList from './pages/CustomerList';
+import CustomerDetail from './pages/CustomerDetail';
+import CustomerAdd from './pages/CustomerAdd';
+import CustomerEdit from './pages/CustomerEdit';
+import CustomerRecordList from './pages/CustomerRecordList';
 
 export const router = createBrowserRouter([
   {
@@ -80,5 +85,25 @@ export const router = createBrowserRouter([
   {
     path: '/recording/result/:id',
     Component: RecordingResult,
+  },
+  {
+    path: '/customer/list',
+    Component: CustomerList,
+  },
+  {
+    path: '/customer/detail/:id',
+    Component: CustomerDetail,
+  },
+  {
+    path: '/customer/add',
+    Component: CustomerAdd,
+  },
+  {
+    path: '/customer/edit/:id',
+    Component: CustomerEdit,
+  },
+  {
+    path: '/customer/record-list',
+    Component: CustomerRecordList,
   },
 ]);
