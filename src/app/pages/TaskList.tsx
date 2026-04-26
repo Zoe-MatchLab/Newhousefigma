@@ -9,24 +9,7 @@ export default function TaskList() {
   const [showNotificationPanel, setShowNotificationPanel] = useState(false);
   const [selectedDate, setSelectedDate] = useState(6);
   const [unreadCount] = useState(3);
-
-  const [filters, setFilters] = useState({
-    perspective: 'all',
-    status: 'all',
-    type: 'all'
-  });
-
-  const dates = Array.from({ length: 14 }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 7 + i);
-    return {
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      isToday: i === 7
-    };
-  });
-
-  const tasks = [
+  const [taskList, setTaskList] = useState([
     {
       id: 1,
       title: '中海汇德里探盘任务',
@@ -86,54 +69,19 @@ export default function TaskList() {
     },
     {
       id: 3,
-      title: '保利天悦综合任务',
-      type: '综合',
+      title: '保利天悦话术训练',
+      type: '话术训练',
       initiator: '王总监',
       deadline: '2026-04-19T10:00:00',
-      status: 'overtime',
+      status: 'completed',
       parallelTasks: {
         roadmap: {
-          enabled: true,
-          stages: [
-            { name: '采集', status: 'completed' },
-            { name: '文案', status: 'completed' },
-            { name: '视频', status: 'pending' }
-          ]
+          enabled: false
         },
         speech: {
           enabled: true,
           completed: 8,
-          total: 10,
-          status: 'in-progress'
-        },
-        audio: {
-          enabled: true,
-          uploaded: 10,
-          total: 10,
-          status: 'completed'
-        }
-      }
-    },
-    {
-      id: 4,
-      title: '万科公园城市探盘任务',
-      type: '探盘',
-      initiator: '陈经理',
-      deadline: '2026-04-19T16:00:00',
-      status: 'completed',
-      parallelTasks: {
-        roadmap: {
-          enabled: true,
-          stages: [
-            { name: '采集', status: 'completed' },
-            { name: '文案', status: 'completed' },
-            { name: '视频', status: 'completed' }
-          ]
-        },
-        speech: {
-          enabled: true,
-          completed: 15,
-          total: 15,
+          total: 8,
           status: 'completed'
         },
         audio: {
@@ -142,12 +90,12 @@ export default function TaskList() {
       }
     },
     {
-      id: 5,
+      id: 4,
       title: '龙湖天街录音分析',
       type: '录音分析',
       initiator: '刘主管',
       deadline: '2026-04-18T14:00:00',
-      status: 'stopped',
+      status: 'overtime',
       parallelTasks: {
         roadmap: {
           enabled: false
@@ -159,11 +107,96 @@ export default function TaskList() {
           enabled: true,
           uploaded: 4,
           total: 6,
+          status: 'overtime'
+        }
+      }
+    },
+    {
+      id: 5,
+      title: '万科公园城市推广任务',
+      type: '探盘',
+      initiator: '陈经理',
+      deadline: '2026-04-19T16:00:00',
+      status: 'stopped',
+      parallelTasks: {
+        roadmap: {
+          enabled: true,
+          stages: [
+            { name: '采集', status: 'completed' },
+            { name: '文案', status: 'completed' },
+            { name: '视频', status: 'pending' }
+          ]
+        },
+        speech: {
+          enabled: true,
+          completed: 6,
+          total: 10,
           status: 'stopped'
+        },
+        audio: {
+          enabled: false
+        }
+      }
+    },
+    {
+      id: 6,
+      title: '融创文旅城调研任务',
+      type: '探盘',
+      initiator: '赵经理',
+      deadline: '2026-04-20T18:00:00',
+      status: 'rejected',
+      rejectReason: '任务安排冲突，无法按时完成',
+      parallelTasks: {
+        roadmap: {
+          enabled: true,
+          stages: [
+            { name: '采集', status: 'pending' },
+            { name: '文案', status: 'pending' },
+            { name: '视频', status: 'pending' }
+          ]
+        },
+        speech: {
+          enabled: false
+        },
+        audio: {
+          enabled: false
         }
       }
     }
-  ];
+  ]);
+
+  const [filters, setFilters] = useState({
+    status: ['all'],
+    type: ['all'],
+    source: ['all']
+  });
+
+  const toggleFilter = (category: 'status' | 'type' | 'source', value: string) => {
+    setFilters(prev => {
+      const current = prev[category];
+      if (value === 'all') {
+        return { ...prev, [category]: ['all'] };
+      }
+      if (current.includes('all')) {
+        return { ...prev, [category]: [value] };
+      }
+      if (current.includes(value)) {
+        const newValues = current.filter(v => v !== value);
+        return { ...prev, [category]: newValues.length === 0 ? ['all'] : newValues };
+      }
+      return { ...prev, [category]: [...current, value] };
+    });
+  };
+
+  const dates = Array.from({ length: 14 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 7 + i);
+    return {
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      isToday: i === 7
+    };
+  });
 
   const notifications = [
     {
@@ -204,6 +237,8 @@ export default function TaskList() {
         return { text: '已超时', color: 'text-[#FA5151]', bg: 'bg-[#FFECE8]' };
       case 'stopped':
         return { text: '已停止', color: 'text-[#4E5969]', bg: 'bg-[#E5E6EB]' };
+      case 'rejected':
+        return { text: '已拒绝', color: 'text-[#FF4D4F]', bg: 'bg-[#FFF1F0]' };
       default:
         return { text: '未知', color: 'text-[#86909C]', bg: 'bg-[#F7F8FA]' };
     }
@@ -223,7 +258,7 @@ export default function TaskList() {
   };
 
   const calculateTimeRemaining = (deadline: string) => {
-    const now = new Date('2026-04-19T14:30:00'); // 当前时间
+    const now = new Date('2026-04-19T14:30:00');
     const deadlineDate = new Date(deadline);
     const diffMs = deadlineDate.getTime() - now.getTime();
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
@@ -253,7 +288,6 @@ export default function TaskList() {
     let totalTasks = 0;
     let completedTasks = 0;
 
-    // 探盘路书
     if (parallelTasks.roadmap?.enabled) {
       totalTasks++;
       const stages = parallelTasks.roadmap.stages;
@@ -263,7 +297,6 @@ export default function TaskList() {
       }
     }
 
-    // 话术训练
     if (parallelTasks.speech?.enabled) {
       totalTasks++;
       if (parallelTasks.speech.completed === parallelTasks.speech.total) {
@@ -271,7 +304,6 @@ export default function TaskList() {
       }
     }
 
-    // 录音分析
     if (parallelTasks.audio?.enabled) {
       totalTasks++;
       if (parallelTasks.audio.uploaded === parallelTasks.audio.total) {
@@ -292,14 +324,27 @@ export default function TaskList() {
         return { text: '已完成', color: 'text-[#00B42A]' };
       case 'stopped':
         return { text: '已停止', color: 'text-[#4E5969]' };
+      case 'overtime':
+        return { text: '已超时', color: 'text-[#FA5151]' };
+      case 'rejected':
+        return { text: '已拒绝', color: 'text-[#FF4D4F]' };
       default:
         return { text: '', color: 'text-[#86909C]' };
     }
   };
 
+  const handleTaskClick = (task: any) => {
+    if (task.status === 'not-started') {
+      const updatedTasks = taskList.map(t =>
+        t.id === task.id ? { ...t, status: 'in-progress' } : t
+      );
+      setTaskList(updatedTasks);
+    }
+    navigate(`/tasks/${task.id}`);
+  };
+
   return (
     <div className="h-screen flex flex-col bg-[#F7F8FA]">
-      {/* 顶部导航栏 */}
       <header className="bg-white border-b border-[#E5E6EB] px-4 py-3 flex items-center justify-between sticky top-0 z-20">
         <h1 className="text-[17px] font-semibold text-[#1D2129]">任务中心</h1>
         <div className="flex items-center gap-3">
@@ -321,9 +366,7 @@ export default function TaskList() {
         </div>
       </header>
 
-      {/* 主内容区 */}
       <div className="flex-1 flex overflow-hidden">
-        {/* 左侧日期列表 */}
         <div className="w-20 bg-white border-r border-[#E5E6EB] overflow-y-auto">
           {dates.map((date, index) => (
             <button
@@ -356,10 +399,9 @@ export default function TaskList() {
           ))}
         </div>
 
-        {/* 右侧任务列表 */}
         <div className="flex-1 overflow-y-auto p-4">
           <div className="space-y-3">
-            {tasks.map((task) => {
+            {taskList.map((task) => {
               const statusInfo = getStatusLabel(task.status);
               const timeInfo = calculateTimeRemaining(task.deadline);
               const progressInfo = calculateTaskProgress(task.parallelTasks);
@@ -370,9 +412,11 @@ export default function TaskList() {
               return (
                 <div
                   key={task.id}
-                  className="bg-white p-4 rounded-2xl shadow-sm"
+                  onClick={() => handleTaskClick(task)}
+                  className={`bg-white p-4 rounded-2xl shadow-sm cursor-pointer transition-all hover:shadow-md ${
+                    task.status === 'not-started' ? 'hover:ring-2 hover:ring-[#FA8C16]/30' : ''
+                  }`}
                 >
-                  {/* 任务头部信息 */}
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -383,7 +427,6 @@ export default function TaskList() {
                           {task.type}
                         </span>
                       </div>
-
                       <div className="flex items-center gap-3 text-[13px] text-[#86909C] mb-2">
                         <span>发起人：{task.initiator}</span>
                       </div>
@@ -391,7 +434,6 @@ export default function TaskList() {
                     <ChevronRight className="w-5 h-5 text-[#86909C] flex-shrink-0" />
                   </div>
 
-                  {/* 截止时间和剩余时间 */}
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-[13px] text-[#86909C]">{formattedDeadline}</span>
                     <span className={`text-[13px] font-semibold ${timeInfo.color}`}>
@@ -399,7 +441,6 @@ export default function TaskList() {
                     </span>
                   </div>
 
-                  {/* 总状态和总进度 */}
                   <div className="mb-3 pb-3 border-b border-[#E5E6EB]">
                     <div className="flex items-center justify-between mb-2">
                       <span className={`px-2 py-0.5 ${statusInfo.bg} ${statusInfo.color} text-[12px] rounded-full`}>
@@ -417,9 +458,7 @@ export default function TaskList() {
                     </div>
                   </div>
 
-                  {/* 并行任务列表（带状态） */}
                   <div className="space-y-2">
-                    {/* 探盘路书 */}
                     {task.parallelTasks.roadmap?.enabled && (
                       <button
                         onClick={(e) => {
@@ -447,7 +486,6 @@ export default function TaskList() {
                       </button>
                     )}
 
-                    {/* 话术训练 */}
                     {task.parallelTasks.speech?.enabled && (
                       <button
                         onClick={(e) => {
@@ -471,12 +509,11 @@ export default function TaskList() {
                       </button>
                     )}
 
-                    {/* 录音分析 */}
                     {task.parallelTasks.audio?.enabled && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/tasks/${task.id}/audio`);
+                          navigate('/recording/upload');
                         }}
                         className="w-full flex items-center justify-between p-3 bg-[#E8F5E9] rounded-lg hover:bg-[#AFF0B5] transition-colors"
                       >
@@ -502,7 +539,6 @@ export default function TaskList() {
         </div>
       </div>
 
-      {/* 悬浮创建按钮 */}
       <button
         onClick={() => navigate('/create')}
         className="fixed bottom-20 right-6 w-14 h-14 bg-gradient-to-br from-[#FA8C16] to-[#F76560] rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center z-40"
@@ -510,73 +546,119 @@ export default function TaskList() {
         <Plus className="w-6 h-6 text-white" />
       </button>
 
-      {/* 底部TabBar */}
       <TabBar />
 
-      {/* 筛选弹窗 */}
       {showFilterModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end" onClick={() => setShowFilterModal(false)}>
-          <div className="w-full bg-white rounded-t-3xl p-6 animate-slide-up" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full bg-white rounded-t-3xl p-6 animate-slide-up max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-[17px] font-semibold text-[#1D2129] mb-4">筛选条件</h2>
 
-            <div className="space-y-4">
-              <div>
-                <label className="text-[14px] text-[#4E5969] mb-2 block">视角</label>
-                <div className="flex gap-2 flex-wrap">
-                  {['全部', '我收到的', '我下发的'].map((item) => (
-                    <button
-                      key={item}
-                      className={`px-4 py-2 rounded-full text-[14px] transition-colors ${
-                        filters.perspective === item
-                          ? 'bg-[#FA8C16] text-white'
-                          : 'bg-[#F7F8FA] text-[#4E5969]'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+            <div className="space-y-5">
               <div>
                 <label className="text-[14px] text-[#4E5969] mb-2 block">状态</label>
                 <div className="flex gap-2 flex-wrap">
-                  {['全部', '待执行', '进行中', '已完成', '已超时', '已停止'].map((item) => (
-                    <button
-                      key={item}
-                      className={`px-4 py-2 rounded-full text-[14px] transition-colors ${
-                        filters.status === item
-                          ? 'bg-[#FA8C16] text-white'
-                          : 'bg-[#F7F8FA] text-[#4E5969]'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  ))}
+                  {[
+                    { value: 'all', label: '全部' },
+                    { value: 'not-started', label: '待开始' },
+                    { value: 'in-progress', label: '进行中' },
+                    { value: 'completed', label: '已完成' },
+                    { value: 'overtime', label: '已超时' },
+                    { value: 'stopped', label: '已停止' },
+                  ].map((item) => {
+                    const isSelected = filters.status.includes(item.value);
+                    return (
+                      <button
+                        key={item.value}
+                        onClick={() => toggleFilter('status', item.value)}
+                        className={`px-4 py-2 rounded-full text-[14px] transition-colors flex items-center gap-1.5 min-w-[72px] justify-center ${
+                          isSelected
+                            ? 'bg-[#FA8C16] text-white'
+                            : 'bg-[#F7F8FA] text-[#4E5969]'
+                        }`}
+                      >
+                        <span className={`w-3 h-3 rounded-full flex items-center justify-center text-[10px] ${
+                          isSelected ? 'bg-white text-[#FA8C16]' : 'bg-transparent'
+                        }`}>
+                          {isSelected && '✓'}
+                        </span>
+                        {item.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
               <div>
-                <label className="text-[14px] text-[#4E5969] mb-2 block">类型</label>
+                <label className="text-[14px] text-[#4E5969] mb-2 block">任务类型</label>
                 <div className="flex gap-2 flex-wrap">
-                  {['全部', '探盘任务', '话术训练', '录音分析', '文案生成'].map((item) => (
-                    <button
-                      key={item}
-                      className={`px-4 py-2 rounded-full text-[14px] transition-colors ${
-                        filters.type === item
-                          ? 'bg-[#FA8C16] text-white'
-                          : 'bg-[#F7F8FA] text-[#4E5969]'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  ))}
+                  {[
+                    { value: 'all', label: '全部' },
+                    { value: '探盘', label: '探盘任务' },
+                    { value: '话术训练', label: '话术训练' },
+                    { value: '录音分析', label: '录音分析' },
+                    { value: '文案', label: '文案生成' },
+                    { value: 'custom', label: '自定义' },
+                  ].map((item) => {
+                    const isSelected = filters.type.includes(item.value);
+                    return (
+                      <button
+                        key={item.value}
+                        onClick={() => toggleFilter('type', item.value)}
+                        className={`px-4 py-2 rounded-full text-[14px] transition-colors flex items-center gap-1.5 min-w-[72px] justify-center ${
+                          isSelected
+                            ? 'bg-[#FA8C16] text-white'
+                            : 'bg-[#F7F8FA] text-[#4E5969]'
+                        }`}
+                      >
+                        <span className={`w-3 h-3 rounded-full flex items-center justify-center text-[10px] ${
+                          isSelected ? 'bg-white text-[#FA8C16]' : 'bg-transparent'
+                        }`}>
+                          {isSelected && '✓'}
+                        </span>
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[14px] text-[#4E5969] mb-2 block">来源</label>
+                <div className="flex gap-2 flex-wrap">
+                  {[
+                    { value: 'all', label: '全部' },
+                    { value: 'organization', label: '组织' },
+                    { value: 'my-created', label: '我创建的' },
+                  ].map((item) => {
+                    const isSelected = filters.source.includes(item.value);
+                    return (
+                      <button
+                        key={item.value}
+                        onClick={() => toggleFilter('source', item.value)}
+                        className={`px-4 py-2 rounded-full text-[14px] transition-colors flex items-center gap-1.5 min-w-[72px] justify-center ${
+                          isSelected
+                            ? 'bg-[#FA8C16] text-white'
+                            : 'bg-[#F7F8FA] text-[#4E5969]'
+                        }`}
+                      >
+                        <span className={`w-3 h-3 rounded-full flex items-center justify-center text-[10px] ${
+                          isSelected ? 'bg-white text-[#FA8C16]' : 'bg-transparent'
+                        }`}>
+                          {isSelected && '✓'}
+                        </span>
+                        {item.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-3 mt-6">
-              <button className="flex-1 py-3 bg-[#F7F8FA] text-[#4E5969] rounded-full text-[15px] font-semibold">
+            <div className="flex gap-3 mt-6 pt-4 border-t border-[#E5E6EB]">
+              <button 
+                onClick={() => setFilters({ status: ['all'], type: ['all'], source: ['all'] })}
+                className="flex-1 py-3 bg-[#F7F8FA] text-[#4E5969] rounded-full text-[15px] font-semibold"
+              >
                 重置
               </button>
               <button
@@ -590,7 +672,6 @@ export default function TaskList() {
         </div>
       )}
 
-      {/* 通知面板 */}
       {showNotificationPanel && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-end" onClick={() => setShowNotificationPanel(false)}>
           <div className="w-full bg-white rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>

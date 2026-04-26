@@ -12,6 +12,16 @@ import PointDataCollection from './pages/PointDataCollection';
 import ContentGeneration from './pages/ContentGeneration';
 import MediaGeneration from './pages/MediaGeneration';
 import ServiceTools from './pages/ServiceTools';
+import RecordingList from './pages/RecordingList';
+import RecordingUpload from './pages/RecordingUpload';
+import RecordingResult from './pages/RecordingResult';
+import CustomerList from './pages/CustomerList';
+import CustomerDetail from './pages/CustomerDetail';
+import CustomerAdd from './pages/CustomerAdd';
+import CustomerEdit from './pages/CustomerEdit';
+import CustomerRecordList from './pages/CustomerRecordList';
+import BuildingSelect from './pages/BuildingSelect';
+import CustomerSelect from './pages/CustomerSelect';
 
 export const router = createBrowserRouter([
   {
@@ -65,5 +75,45 @@ export const router = createBrowserRouter([
   {
     path: '/tasks/:id/audio',
     Component: AudioTask,
+  },
+  {
+    path: '/recording/list',
+    Component: RecordingList,
+  },
+  {
+    path: '/recording/upload',
+    Component: RecordingUpload,
+  },
+  {
+    path: '/recording/result/:id',
+    Component: RecordingResult,
+  },
+  {
+    path: '/customer/list',
+    Component: CustomerList,
+  },
+  {
+    path: '/customer/detail/:id',
+    Component: CustomerDetail,
+  },
+  {
+    path: '/customer/add',
+    Component: CustomerAdd,
+  },
+  {
+    path: '/customer/edit/:id',
+    Component: CustomerEdit,
+  },
+  {
+    path: '/customer/record-list',
+    Component: CustomerRecordList,
+  },
+  {
+    path: '/recording/building-select',
+    Component: BuildingSelect,
+  },
+  {
+    path: '/recording/customer-select',
+    Component: CustomerSelect,
   },
 ]);
