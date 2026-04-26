@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, Plus, CheckCircle, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 export default function CustomerAdd() {
   const navigate = useNavigate();

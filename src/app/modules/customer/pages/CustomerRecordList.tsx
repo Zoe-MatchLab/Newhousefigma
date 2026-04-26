@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronLeft, Play, Pause, Trash2, Lock, Search, Sliders, X, ChevronRight, Clock, Upload } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 export default function CustomerRecordList() {
   const navigate = useNavigate();

@@ -28,7 +28,7 @@ import {
   AlertTriangle,
   CheckSquare
 } from 'lucide-react';
-import TabBar from '../../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 export default function Profile() {
   const navigate = useNavigate();

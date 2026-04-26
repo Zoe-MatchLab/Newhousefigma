@@ -14,7 +14,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Search, ChevronUp, Plus, Check, ChevronDown, Bell, X, Star } from 'lucide-react';
-import TabBar from '../../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 interface Tool {
   id: string;

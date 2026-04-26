@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Plus, Search, Filter, ChevronRight, Edit3, StopCircle, Trash2, Eye, X, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 interface Task {
   id: number;

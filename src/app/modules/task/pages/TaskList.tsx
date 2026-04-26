@@ -15,7 +15,7 @@
 import { useState } from 'react';
 import { Filter, Bell, ChevronRight, MapPin, Mic, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import TabBar from '../../components/TabBar';
+import TabBar from '../../../components/TabBar';
 import { useTaskList, useTaskNavigation } from '../hooks/useTasks';
 import { Task } from '../types';
 

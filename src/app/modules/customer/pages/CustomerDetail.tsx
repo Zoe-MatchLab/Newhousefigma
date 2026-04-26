@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronLeft, Edit, ChevronDown, Share2, Home, Edit2 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 export default function CustomerDetail() {
   const navigate = useNavigate();

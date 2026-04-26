@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, MapPin, Clock, Check, ChevronDown, Bell, Search, X, Building2, Calendar, Users, AlertCircle, MessageSquare } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 type ExecutorStatus = 'all' | 'pending' | 'in-progress' | 'completed' | 'expired' | 'rejected';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Plus, CheckCircle, X } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import TabBar from '../components/TabBar';
+import TabBar from '../../../components/TabBar';
 
 export default function CustomerEdit() {
   const navigate = useNavigate();

@@ -15,7 +15,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Mic, Trash2, Play, Pause, Lock, Loader2, RefreshCw, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import TabBar from '../../components/TabBar';
+import TabBar from '../../../components/TabBar';
 import { useRecordingList, useRecordingNavigation } from '../hooks/useRecordings';
 import { RecordingRecord } from '../types';
 

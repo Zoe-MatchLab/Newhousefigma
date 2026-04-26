@@ -14,7 +14,7 @@
 import { useState } from 'react';
 import { Search, Plus, ChevronRight, User, Sliders } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import TabBar from '../../components/TabBar';
+import TabBar from '../../../components/TabBar';
 import { useCustomerList, useCustomerNavigation } from '../hooks/useCustomers';
 
 export default function CustomerList() {
