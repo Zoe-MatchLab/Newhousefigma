@@ -637,7 +637,7 @@ export default function CreateTask() {
                           </label>
                         </div>
                         <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
-                          <span className="text-[13px] text-[#4E5969]">AI图文视频创作</span>
+                          <span className="text-[13px] text-[#4E5969]">AI图文视频</span>
                           <label className="relative inline-block w-12 h-6">
                             <input
                               type="checkbox"
@@ -794,7 +794,7 @@ export default function CreateTask() {
                       {audioAnalysis && (
                         <div className="p-3 bg-[#F7F8FA] rounded-xl">
                           <div className="flex items-center gap-3">
-                            <span className="text-[13px] text-[#4E5969]">上传录音数</span>
+                            <span className="text-[13px] text-[#4E5969]">至少分析客户数</span>
                             <input
                               type="number"
                               value={audioCount}
@@ -803,10 +803,10 @@ export default function CreateTask() {
                               max="999"
                               className="w-16 h-8 px-2 border border-[#E5E6EB] rounded text-[13px] text-center"
                             />
-                            <span className="text-[13px] text-[#86909C]">条</span>
+                            <span className="text-[13px] text-[#86909C]">位</span>
                           </div>
                           <div className="mt-2 text-[12px] text-[#86909C]">
-                            分析维度：话术规范、情绪识别、关键词覆盖、邀约意向
+                            支持邀约客情分析、待看客户客情分析、成交客户客情分析等维度，分析结果会自动生成报告。
                           </div>
                         </div>
                       )}
@@ -1001,7 +1001,7 @@ export default function CreateTask() {
                 <div className="mb-4">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-1 h-4 bg-[#FA8C16] rounded-full"></div>
-                    <span className="text-[13px] font-medium text-[#1D2129]">开始前提醒</span>
+                    <span className="text-[13px] font-medium text-[#1D2129]">开始前</span>
                   </div>
                   <div className="space-y-2 ml-3">
                     <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
@@ -1102,7 +1102,7 @@ export default function CreateTask() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-1 h-4 bg-[#165DFF] rounded-full"></div>
-                    <span className="text-[13px] font-medium text-[#1D2129]">结束前提醒</span>
+                    <span className="text-[13px] font-medium text-[#1D2129]">结束前</span>
                   </div>
                   <div className="space-y-2 ml-3">
                     <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
