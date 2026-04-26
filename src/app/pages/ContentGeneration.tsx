@@ -22,8 +22,8 @@ interface GeneratedContent {
 }
 
 const CHANNELS = [
-  { id: 'speech', name: '推广话术', icon: '💬', tag: '' },
-  { id: 'xiaohongshu', name: '小红书', icon: '📱', tag: '热门' },
+  { id: 'speech', name: '推荐语', icon: '💬', tag: '' },
+  { id: 'xiaohongshu', name: '小红书', icon: '📱', tag: '' },
   { id: 'moments', name: '朋友圈', icon: '🔥', tag: '' },
   { id: 'wechat', name: '公众号', icon: '📰', tag: '' },
   { id: 'video', name: '视频号', icon: '🎬', tag: 'AI' }
@@ -32,7 +32,7 @@ const CHANNELS = [
 const VIDEO_METHODS = [
   {
     id: 'lightning',
-    name: '闪电生成',
+    name: '快速成片',
     icon: Zap,
     badge: '秒出',
     desc: '即时',
@@ -41,7 +41,7 @@ const VIDEO_METHODS = [
   },
   {
     id: 'normal',
-    name: '普通生成',
+    name: '空镜混剪',
     icon: Wand2,
     badge: '混剪',
     desc: '~5分钟',
@@ -50,7 +50,7 @@ const VIDEO_METHODS = [
   },
   {
     id: 'master',
-    name: '大师生成',
+    name: '定制大片',
     icon: Crown,
     badge: '高质量',
     desc: '~1小时',
@@ -93,7 +93,7 @@ export default function ContentGeneration() {
     { id: 6, name: '自然清新风', thumbnail: 'template6', duration: '40s', style: '清新自然' }
   ];
 
-  const houseName = '中海汇德里';
+  const houseName = '中海汇德里集攻活动';
   const showVideoMethods = selectedChannels.includes('video');
   const needTemplateSelection = selectedVideoMethod === 'normal' || selectedVideoMethod === 'master';
   const canGenerate = selectedChannels.length > 0 &&
@@ -184,7 +184,7 @@ export default function ContentGeneration() {
         mockContents.push({
           id: id++,
           channel: 'speech',
-          title: '推广话术 - 开盘活动',
+          title: '推荐语 - 开盘活动',
           content: '🏠 中海汇德里，浦东新区张江高科技园区核心地段！\n\n✨ 地铁500米，自驾方便\n📍 周边配套齐全，商业、学校、医院一应俱全\n🌳 园林景观优美，沙盘精致\n\n现在开盘特惠，诚邀您到访参观！',
           selected: false
         });
@@ -372,7 +372,7 @@ export default function ContentGeneration() {
           >
             <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-[18px] font-semibold text-white">文案生成</h1>
+          <h1 className="text-[18px] font-semibold text-white">AI一键成稿</h1>
           <div className="w-9"></div>
         </div>
 
@@ -671,9 +671,9 @@ export default function ContentGeneration() {
                     </span>
                     {content.channel === 'video' && selectedVideoMethod && (
                       <span className="text-[10px] px-1.5 py-0.5 bg-[#F7F0FF] text-[#722ED1] rounded">
-                        {selectedVideoMethod === 'lightning' && '闪电生成'}
-                        {selectedVideoMethod === 'normal' && '普通生成'}
-                        {selectedVideoMethod === 'master' && '大师生成'}
+                        {selectedVideoMethod === 'lightning' && '快速成片'}
+                        {selectedVideoMethod === 'normal' && '空镜混剪'}
+                        {selectedVideoMethod === 'master' && '定制大片'}
                       </span>
                     )}
                   </div>

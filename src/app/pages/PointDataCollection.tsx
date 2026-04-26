@@ -102,7 +102,7 @@ export default function PointDataCollection() {
     }
   ]);
 
-  const houseName = '中海汇德里';
+  const houseName = '中海汇德里集攻活动';
   const completedCount = points.filter(p => hasContent(p)).length;
   const totalCount = points.length;
   const requiredPoints = points.filter(p => p.required);
@@ -352,7 +352,7 @@ export default function PointDataCollection() {
           >
             <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-[18px] font-semibold text-white">点位资料收集</h1>
+          <h1 className="text-[18px] font-semibold text-white">AI卖点采集</h1>
           <div className="w-9"></div>
         </div>
 
@@ -665,7 +665,7 @@ export default function PointDataCollection() {
                   <span className="text-[#FA8C16] text-[16px] flex-shrink-0 mt-0.5">⚠️</span>
                   <div className="flex-1">
                     <div className="text-[13px] text-[#4E5969] leading-relaxed">
-                      提交后将进入<span className="font-bold text-[#FA8C16]">【文案生成】</span>阶段
+                      提交后将进入<span className="font-bold text-[#FA8C16]">【AI一键成稿】</span>阶段
                     </div>
                     <div className="text-[13px] text-[#4E5969] leading-relaxed mt-1">
                       当前阶段将<span className="font-bold text-[#FA8C16]">不可更改</span>

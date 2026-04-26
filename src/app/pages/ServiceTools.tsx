@@ -44,7 +44,7 @@ export default function ServiceTools() {
     },
     {
       id: 2,
-      taskName: '万科城市之光话术训练',
+      taskName: '万科城市之光AI顾问陪练',
       taskType: 'speech',
       message: '新任务已下发，请及时完成',
       isRead: false,
@@ -99,7 +99,7 @@ export default function ServiceTools() {
     },
     {
       id: 'speech-training',
-      name: 'AI话术训练',
+      name: 'AI顾问陪练',
       description: '智能对话，仿真场景练习',
       image: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=336&h=326&fit=crop',
       gradient: 'from-[rgba(0,200,200,0.6)] to-[rgba(0,150,150,0.85)]',
@@ -117,7 +117,7 @@ export default function ServiceTools() {
     },
     {
       id: 'audio-analysis',
-      name: '约看录音分析',
+      name: 'AI客情分析',
       description: 'AI分析通话话术，提升成交率',
       image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=336&h=326&fit=crop',
       gradient: 'from-[rgba(22,93,255,0.6)] to-[rgba(22,93,255,0.85)]',

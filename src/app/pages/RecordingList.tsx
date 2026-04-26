@@ -186,7 +186,7 @@ export default function RecordingList() {
         <button onClick={() => navigate('/')} className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-lg active:bg-white/30 transition-colors">
           <ArrowLeft className="w-5 h-5 text-[#1D2129]" />
         </button>
-        <h1 className="text-[17px] font-semibold text-[#1D2129]">约看录音分析</h1>
+        <h1 className="text-[17px] font-semibold text-[#1D2129]">AI客情分析</h1>
         <div className="w-8" />
       </header>
 

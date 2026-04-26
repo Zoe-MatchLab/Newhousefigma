@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Plus, ChevronRight, User, Sliders } from 'lucide-react';
+import { Search, Plus, ChevronRight, User, Sliders, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import TabBar from '../components/TabBar';
 
@@ -70,8 +70,12 @@ export default function CustomerList() {
   return (
     <div className="h-screen flex flex-col bg-[#F7F8FA]">
       {/* 顶部导航 */}
-      <header className="bg-[#FA8C16] text-white px-4 py-3 flex items-center justify-center sticky top-0 z-20">
+      <header className="bg-[#FA8C16] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-20">
+        <button onClick={() => navigate(-1)} className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-lg active:bg-white/30 transition-colors">
+          <ArrowLeft className="w-5 h-5 text-white" />
+        </button>
         <span className="text-[17px] font-semibold">我的客户</span>
+        <div className="w-8" />
       </header>
 
       {/* 搜索栏 */}

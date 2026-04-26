@@ -93,7 +93,7 @@ export default function TaskDetail() {
 
   const taskData: TaskDetailData = {
     id: id || '1',
-    name: '中海汇德里探盘任务',
+    name: '中海汇德里集攻活动',
     description: '对中海汇德里楼盘进行实地探盘，收集楼盘信息，生成推广文案和宣传素材。',
     type: '探盘',
     status: 'in-progress',
@@ -143,7 +143,7 @@ export default function TaskDetail() {
         progress: { completed: 1, total: 3 },
         subTasks: [
           {
-            name: '探盘路书',
+            name: 'AI探盘助手',
             status: 'in-progress',
             progress: { completed: 1, total: 3 },
             children: [
@@ -153,7 +153,7 @@ export default function TaskDetail() {
             ],
           },
           {
-            name: '话术训练',
+            name: 'AI顾问陪练',
             status: 'pending',
             progress: { completed: 0, total: 4 },
             children: [
@@ -186,7 +186,7 @@ export default function TaskDetail() {
         progress: { completed: 3, total: 3 },
         subTasks: [
           {
-            name: '探盘路书',
+            name: 'AI探盘助手',
             status: 'completed',
             progress: { completed: 3, total: 3 },
             children: [
@@ -196,7 +196,7 @@ export default function TaskDetail() {
             ],
           },
           {
-            name: '话术训练',
+            name: 'AI顾问陪练',
             status: 'completed',
             progress: { completed: 4, total: 4 },
             children: [
@@ -227,7 +227,7 @@ export default function TaskDetail() {
         progress: { completed: 0, total: 1 },
         subTasks: [
           {
-            name: '探盘路书',
+            name: 'AI探盘助手',
             status: 'pending',
             progress: { completed: 0, total: 3 },
             children: [
@@ -247,7 +247,7 @@ export default function TaskDetail() {
         progress: { completed: 1, total: 2 },
         subTasks: [
           {
-            name: '探盘路书',
+            name: 'AI探盘助手',
             status: 'completed',
             progress: { completed: 3, total: 3 },
             children: [
@@ -257,7 +257,7 @@ export default function TaskDetail() {
             ],
           },
           {
-            name: '话术训练',
+            name: 'AI顾问陪练',
             status: 'in-progress',
             progress: { completed: 2, total: 4 },
             children: [
@@ -274,7 +274,7 @@ export default function TaskDetail() {
         name: '钱七',
         avatar: '钱',
         status: 'rejected',
-        rejectReason: '家中有事，无法参与本次探盘任务，请重新安排其他人。',
+        rejectReason: '家中有事，无法参与本次集攻活动，请重新安排其他人。',
         progress: { completed: 0, total: 1 },
         subTasks: [],
       },
@@ -383,7 +383,7 @@ export default function TaskDetail() {
         <button onClick={() => navigate('/')} className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-lg active:bg-white/30 transition-colors">
           <ArrowLeft className="w-5 h-5 text-white" />
         </button>
-        <h1 className="text-[17px] font-semibold text-white">任务详情</h1>
+        <h1 className="text-[17px] font-semibold text-white">详情</h1>
         <div className="w-8" />
       </header>
 
@@ -450,109 +450,119 @@ export default function TaskDetail() {
       {activeTab === 'config' && (
         <div className="p-4 space-y-4">
           {/* 楼盘信息 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">楼盘信息</span>
-            </div>
-            <div className="p-4">
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4 bg-[#F7F8FA] rounded-xl">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-[15px] font-semibold text-[#1D2129]">{taskData.buildingInfo.name}</h3>
                 <span className="text-[15px] text-[#FA8C16] font-semibold">{taskData.buildingInfo.price}</span>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-[13px]">
-                <div>
-                  <span className="text-[#86909C]">物业类型：</span>
-                  <span className="text-[#1D2129]">{taskData.buildingInfo.propertyType}</span>
-                </div>
-                <div>
-                  <span className="text-[#86909C]">开发商：</span>
-                  <span className="text-[#1D2129]">{taskData.buildingInfo.developer}</span>
-                </div>
-                <div>
-                  <span className="text-[#86909C]">建筑面积：</span>
-                  <span className="text-[#1D2129]">{taskData.buildingInfo.area}</span>
-                </div>
-                <div>
-                  <span className="text-[#86909C]">交付时间：</span>
-                  <span className="text-[#1D2129]">{taskData.buildingInfo.deliveryTime}</span>
-                </div>
-                <div className="col-span-2">
-                  <span className="text-[#86909C]">地址：</span>
-                  <span className="text-[#1D2129]">{taskData.buildingInfo.address}</span>
-                </div>
+              <div className="grid grid-cols-2 gap-2 text-[13px] text-[#86909C]">
+                <div>物业类型：{taskData.buildingInfo.propertyType}</div>
+                <div>开发商：{taskData.buildingInfo.developer}</div>
+                <div>建筑面积：{taskData.buildingInfo.area}</div>
+                <div>交付时间：{taskData.buildingInfo.deliveryTime}</div>
+                <div colSpan={2}>地址：{taskData.buildingInfo.address}</div>
               </div>
             </div>
           </div>
 
-          {/* 打卡配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">打卡配置</span>
-            </div>
-            <div className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] text-[#86909C]">打卡范围</span>
-                <span className="text-[14px] text-[#1D2129] font-medium">{taskData.checkinConfig.range}米</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] text-[#86909C]">AI审核</span>
-                <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 采集点位配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">采集点位配置</span>
-            </div>
-            <div className="p-4 space-y-3">
-              {taskData.checkinPoints.map((point) => (
-                <div key={point.id} className="p-3 bg-[#F7F8FA] rounded-xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[14px] font-semibold text-[#1D2129]">{point.name}</span>
-                      <span className={`px-2 py-0.5 text-[11px] rounded ${point.required ? 'bg-[#FFECE8] text-[#FA5151]' : 'bg-[#E8F3FF] text-[#165DFF]'}`}>
-                        {point.required ? '必打卡' : '选打卡'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    {point.type.map((type) => (
-                      <span key={type} className="px-2 py-1 bg-white text-[#FA8C16] text-[11px] rounded">
-                        {type}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* 话术训练配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">话术训练配置</span>
-            </div>
+          {/* 打卡范围配置 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[13px] text-[#1D2129]">状态</span>
+                <label className="text-[14px] text-[#1D2129]">打卡范围配置</label>
+              </div>
+              <div className="flex items-center gap-2 p-3 bg-[#FFF7E6] rounded-xl">
+                <div className="flex-1">
+                  <label className="text-[13px] text-[#86909C] mb-1 block">打卡范围</label>
+                  <div className="w-full h-10 px-3 border border-[#FA8C16] rounded-lg text-[14px] bg-white flex items-center">
+                    {taskData.checkinConfig.range}
+                    <span className="text-[14px] text-[#FA8C16] font-medium ml-2">米</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 点位采集 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-[14px] text-[#1D2129]">点位采集</label>
+              </div>
+              
+              <div className="flex items-center justify-between mb-3 p-3 bg-[#F7F8FA] rounded-xl">
+                <span className="text-[13px] text-[#4E5969]">AI审核</span>
+                <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
+              </div>
+
+              <div className="space-y-2 mb-3">
+                {taskData.checkinPoints.map((point) => (
+                  <div key={point.id} className="p-3 bg-[#F7F8FA] rounded-xl">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <span className="text-[14px] font-medium text-[#1D2129]">{point.name}</span>
+                      </div>
+                      <div className="flex items-center gap-1 ml-2">
+                        <span className={`px-2 py-0.5 text-[11px] rounded ${
+                          point.required ? 'bg-[#FFECE8] text-[#FA5151]' : 'bg-[#E8F3FF] text-[#165DFF]'
+                        }`}>
+                          {point.required ? '必填' : '选填'}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {point.type.map((type) => (
+                        <span
+                          key={type}
+                          className="px-2 py-0.5 bg-[#FA8C16] text-white text-[11px] rounded"
+                        >
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
+                  <span className="text-[13px] text-[#4E5969]">AI一键成稿</span>
+                  <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
+                  <span className="text-[13px] text-[#4E5969]">AI图文视频创作</span>
+                  <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* AI顾问陪练配置 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-[14px] text-[#1D2129]">AI顾问陪练</label>
                 <span className={`text-[13px] px-2 py-0.5 rounded ${taskData.speechTrainingConfig.enabled ? 'bg-[#E8F5E9] text-[#00B42A]' : 'bg-[#F7F8FA] text-[#86909C]'}`}>
                   {taskData.speechTrainingConfig.enabled ? '已启用' : '未启用'}
                 </span>
               </div>
               {taskData.speechTrainingConfig.enabled && taskData.speechTrainingConfig.projects && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {taskData.speechTrainingConfig.projects.map((project, index) => (
-                    <div key={index} className="flex items-center justify-between py-2 border-b border-[#F0F0F0] last:border-0">
-                      <span className="text-[13px] text-[#1D2129]">{project.name}</span>
-                      <div className="flex items-center gap-3 text-[12px]">
-                        <span className="text-[#86909C]">训练{project.trainingCount}次</span>
-                        <span className="text-[#FA8C16]">目标{project.scoreTarget}分</span>
+                    <div key={index} className="p-3 bg-[#F7F8FA] rounded-xl">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[14px] font-medium text-[#1D2129]">{project.name}</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between p-2 bg-white rounded-lg">
+                          <span className="text-[13px] text-[#4E5969]">训练次数</span>
+                          <span className="text-[13px] text-[#1D2129] font-medium">{project.trainingCount}次</span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-white rounded-lg">
+                          <span className="text-[13px] text-[#4E5969]">目标分数</span>
+                          <span className="text-[13px] text-[#FA8C16] font-medium">{project.scoreTarget}分</span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -561,89 +571,111 @@ export default function TaskDetail() {
             </div>
           </div>
 
-          {/* 录音分析配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">录音分析配置</span>
-            </div>
+          {/* AI客情分析配置 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[13px] text-[#1D2129]">状态</span>
+                <label className="text-[14px] text-[#1D2129]">AI客情分析</label>
                 <span className={`text-[13px] px-2 py-0.5 rounded ${taskData.audioAnalysisConfig.enabled ? 'bg-[#E8F5E9] text-[#00B42A]' : 'bg-[#F7F8FA] text-[#86909C]'}`}>
                   {taskData.audioAnalysisConfig.enabled ? '已启用' : '未启用'}
                 </span>
               </div>
               {taskData.audioAnalysisConfig.enabled && taskData.audioAnalysisConfig.dimensions && (
-                <div className="flex flex-wrap gap-2">
-                  {taskData.audioAnalysisConfig.dimensions.map((dim, index) => (
-                    <span key={index} className="px-3 py-1.5 bg-[#F7F8FA] text-[#1D2129] text-[12px] rounded-lg">
-                      {dim}
-                    </span>
-                  ))}
+                <div className="p-3 bg-[#F7F8FA] rounded-xl">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-[13px] text-[#4E5969]">分析维度</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {taskData.audioAnalysisConfig.dimensions.map((dim, index) => (
+                      <span key={index} className="px-3 py-1.5 bg-[#E8F3FF] text-[#165DFF] rounded-full text-[12px] font-medium border border-[#165DFF]/20">
+                        {dim}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
-          {/* 执行信息配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">执行信息配置</span>
-            </div>
-            <div className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] text-[#86909C]">开始时间</span>
-                <span className="text-[13px] text-[#1D2129] font-medium">{formatDeadline(taskData.startTime)}</span>
+          {/* 智能提醒配置 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-[14px] text-[#1D2129]">智能提醒</label>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] text-[#86909C]">结束时间</span>
-                <span className="text-[13px] text-[#1D2129] font-medium">{formatDeadline(taskData.deadline)}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[13px] text-[#86909C]">提前提醒</span>
-                <span className="text-[13px] text-[#1D2129] font-medium">{taskData.remindConfig.beforeStart}</span>
-              </div>
-              <div>
-                <div className="text-[13px] text-[#86909C] mb-2">执行人</div>
-                <div className="flex flex-wrap gap-2">
-                  {taskData.executors.map((executor) => (
-                    <span key={executor.id} className="px-3 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-full">
-                      {executor.name}
-                    </span>
-                  ))}
+              
+              {/* 开始前提醒 */}
+              <div className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1 h-4 bg-[#FA8C16] rounded-full"></div>
+                  <span className="text-[13px] font-medium text-[#1D2129]">开始前提醒</span>
+                </div>
+                <div className="space-y-2 ml-3">
+                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                    <span className="px-2 py-1 bg-[#E8F5E9] text-[#00B42A] text-[12px] rounded-shrink">普通</span>
+                    <div className="flex-1 text-[13px] text-[#1D2129]">
+                      开始{taskData.remindConfig.beforeStart}前
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              {/* 结束前提醒 */}
               <div>
-                <div className="text-[13px] text-[#86909C] mb-2">通知人</div>
-                <div className="flex flex-wrap gap-2">
-                  {taskData.notifiers.map((notifier) => (
-                    <span key={notifier} className="px-3 py-1 bg-[#E8F3FF] text-[#165DFF] text-[12px] rounded-full">
-                      {notifier}
-                    </span>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1 h-4 bg-[#165DFF] rounded-full"></div>
+                  <span className="text-[13px] font-medium text-[#1D2129]">结束前提醒</span>
+                </div>
+                <div className="space-y-2 ml-3">
+                  {taskData.remindConfig.levels.map((level, index) => (
+                    <div key={index} className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className={`px-2 py-1 text-[12px] rounded-shrink ${level.color}`}>{level.level}</span>
+                      <div className="flex-1 text-[13px] text-[#1D2129]">
+                        结束{level.time}前
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 提醒配置 */}
-          <div className="bg-white rounded-xl overflow-hidden shadow-sm">
-            <div className="px-4 py-3 border-b border-[#E5E6EB] flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#FA8C16] rounded-full" />
-              <span className="text-[15px] font-semibold text-[#1D2129]">提醒配置</span>
-            </div>
-            <div className="p-4 space-y-2">
-              {taskData.remindConfig.levels.map((level, index) => (
-                <div key={index} className="flex items-center justify-between py-2">
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2 py-0.5 text-[11px] rounded ${level.color}`}>{level.level}</span>
-                    <span className="text-[13px] text-[#4E5969]">截止前提醒</span>
-                  </div>
-                  <span className="text-[13px] text-[#1D2129] font-medium">{level.time}</span>
+          {/* 执行信息 */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-[14px] text-[#1D2129]">执行信息</label>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] text-[#86909C]">开始时间</span>
+                  <span className="text-[13px] text-[#1D2129] font-medium">{formatDeadline(taskData.startTime)}</span>
                 </div>
-              ))}
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] text-[#86909C]">结束时间</span>
+                  <span className="text-[13px] text-[#1D2129] font-medium">{formatDeadline(taskData.deadline)}</span>
+                </div>
+                <div>
+                  <div className="text-[13px] text-[#86909C] mb-2">执行人</div>
+                  <div className="flex flex-wrap gap-2">
+                    {taskData.executors.map((executor) => (
+                      <span key={executor.id} className="px-3 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-full">
+                        {executor.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[13px] text-[#86909C] mb-2">通知人</div>
+                  <div className="flex flex-wrap gap-2">
+                    {taskData.notifiers.map((notifier) => (
+                      <span key={notifier} className="px-3 py-1 bg-[#E8F3FF] text-[#165DFF] text-[12px] rounded-full">
+                        {notifier}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -825,7 +857,7 @@ export default function TaskDetail() {
                                     <span className={`text-[14px] font-medium ${subTask.status === 'completed' ? 'text-[#86909C] line-through' : 'text-[#1D2129]'}`}>
                                       {subTask.name}
                                     </span>
-                                    {subTask.name === '探盘路书' && subTask.status !== 'pending' && (
+                                    {subTask.name === 'AI探盘助手' && subTask.status !== 'pending' && (
                                       <button className="text-[11px] px-2 py-1 bg-[#E8F3FF] text-[#165DFF] rounded hover:bg-[#D4E8FF] transition-colors">
                                         查看详情
                                       </button>

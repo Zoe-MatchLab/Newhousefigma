@@ -40,6 +40,39 @@ export default function CreateTask() {
 
   const [taskType, setTaskType] = useState<TaskType>('');
   const [taskTitle, setTaskTitle] = useState('');
+
+  // 生成默认标题
+  const generateDefaultTitle = (type: TaskType) => {
+    if (!type) return '';
+    
+    // 获取当前日期
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    
+    // 姓名（使用默认值，实际项目中可能从登录信息获取）
+    const userName = '管理员';
+    
+    // 任务类型名称
+    let typeName = '';
+    switch (type) {
+      case 'explore':
+        typeName = '新盘集攻活动';
+        break;
+      case 'speech':
+        typeName = 'AI顾问陪练';
+        break;
+      case 'audio':
+        typeName = 'AI客情分析';
+        break;
+      case 'content':
+        typeName = '每日选题';
+        break;
+      default:
+        typeName = '';
+    }
+    
+    return `${dateStr}-${userName}-${typeName}`;
+  };
   const [taskDesc, setTaskDesc] = useState('');
 
   const [checkInEnabled, setCheckInEnabled] = useState(false);
@@ -51,7 +84,7 @@ export default function CreateTask() {
   
   const [speechTraining, setSpeechTraining] = useState(false);
   const [trainingProjects, setTrainingProjects] = useState<TrainingProject[]>([
-    { id: '1', name: '产品介绍', completionType: 'count', count: 3, score: 85 }
+    { id: '1', name: '中海汇德里产品力训练', completionType: 'count', count: 3, score: 85 }
   ]);
   
   const [audioAnalysis, setAudioAnalysis] = useState(false);
@@ -203,7 +236,7 @@ export default function CreateTask() {
   const addTrainingProject = () => {
     const newProject: TrainingProject = {
       id: Date.now().toString(),
-      name: '新训练项目',
+      name: 'AI邀约话术陪练',
       completionType: 'count',
       count: 1,
       score: 60
@@ -301,7 +334,7 @@ export default function CreateTask() {
         >
           <ArrowLeft className="w-5 h-5 text-[#1D2129]" />
         </button>
-        <h1 className="text-[17px] font-semibold text-[#1D2129]">创建任务</h1>
+        <h1 className="text-[17px] font-semibold text-[#1D2129]">新建</h1>
         <button className="text-[14px] text-[#FA8C16] px-2 py-1 hover:bg-[#FFF7E6] rounded transition-colors">
           存草稿
         </button>
@@ -332,15 +365,19 @@ export default function CreateTask() {
                 </label>
                 <select
                   value={taskType}
-                  onChange={(e) => setTaskType(e.target.value as TaskType)}
+                  onChange={(e) => {
+                    const newType = e.target.value as TaskType;
+                    setTaskType(newType);
+                    // 生成默认标题
+                    setTaskTitle(generateDefaultTitle(newType));
+                  }}
                   className="w-full h-12 px-3 border border-[#E5E6EB] rounded-lg text-[15px] text-[#1D2129] bg-white"
                 >
                   <option value="">请选择任务类型</option>
-                  <option value="explore">探盘任务</option>
-                  <option value="speech">话术训练</option>
-                  <option value="audio">录音分析</option>
+                  <option value="explore">新盘集攻活动</option>
+                  <option value="speech">AI顾问陪练</option>
+                  <option value="audio">AI客情分析</option>
                   <option value="content">每日选题</option>
-                  <option value="custom">自定义</option>
                 </select>
               </div>
 
@@ -587,7 +624,7 @@ export default function CreateTask() {
 
                       <div className="space-y-2">
                         <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
-                          <span className="text-[13px] text-[#4E5969]">内容生成</span>
+                          <span className="text-[13px] text-[#4E5969]">AI一键成稿</span>
                           <label className="relative inline-block w-12 h-6">
                             <input
                               type="checkbox"
@@ -600,7 +637,7 @@ export default function CreateTask() {
                           </label>
                         </div>
                         <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
-                          <span className="text-[13px] text-[#4E5969]">图片/视频生成</span>
+                          <span className="text-[13px] text-[#4E5969]">AI图文视频创作</span>
                           <label className="relative inline-block w-12 h-6">
                             <input
                               type="checkbox"
@@ -622,10 +659,10 @@ export default function CreateTask() {
                       </div>
                     </div>
 
-                    {/* 话术训练配置 */}
+                    {/* AI顾问陪练配置 */}
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <label className="text-[14px] text-[#1D2129]">话术训练</label>
+                        <label className="text-[14px] text-[#1D2129]">AI顾问陪练</label>
                         <label className="relative inline-block w-12 h-6">
                           <input
                             type="checkbox"
@@ -742,7 +779,7 @@ export default function CreateTask() {
                     {/* 录音分析配置 */}
                     <div>
                       <div className="flex items-center justify-between mb-3">
-                        <label className="text-[14px] text-[#1D2129]">录音分析</label>
+                        <label className="text-[14px] text-[#1D2129]">AI客情分析</label>
                         <label className="relative inline-block w-12 h-6">
                           <input
                             type="checkbox"
@@ -917,10 +954,10 @@ export default function CreateTask() {
 
               {/* 任务时间 */}
               <div>
-                <label className="text-[14px] text-[#1D2129] mb-3 block">任务时间</label>
+                <label className="text-[14px] text-[#1D2129] mb-3 block">行动时间</label>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-[12px] text-[#86909C] mb-2 block">开始时间</label>
+                    <label className="text-[12px] text-[#86909C] mb-2 block">开始</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="date"
@@ -937,7 +974,7 @@ export default function CreateTask() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[12px] text-[#86909C] mb-2 block">截止时间</label>
+                    <label className="text-[12px] text-[#86909C] mb-2 block">截止</label>
                     <div className="flex items-center gap-2">
                       <input
                         type="date"
@@ -956,196 +993,208 @@ export default function CreateTask() {
                 </div>
               </div>
 
-              {/* 提醒时间 */}
+              {/* 智能提醒 */}
               <div>
-                <label className="text-[14px] text-[#1D2129] mb-3 block">开始前提醒</label>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#E8F5E9] text-[#00B42A] text-[12px] rounded-shrink">普通</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
-                        <input
-                          type="number"
-                          value={startReminder.normal.days}
-                          onChange={(e) => setStartReminder(prev => ({ ...prev, normal: { ...prev.normal, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
-                          className="w-14 h-8 px-2 border border-[#E5E6EB] rounded text-[12px] text-center"
-                        />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
-                      </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={startReminder.normal.time}
-                        onChange={(e) => setStartReminder(prev => ({ ...prev, normal: { ...prev.normal, time: e.target.value } }))}
-                        className="flex-1 h-8 px-2 border border-[#E5E6EB] rounded text-[12px]"
-                      />
-                    </div>
+                <label className="text-[14px] text-[#1D2129] mb-3 block">智能提醒</label>
+                
+                {/* 开始前提醒 */}
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-1 h-4 bg-[#FA8C16] rounded-full"></div>
+                    <span className="text-[13px] font-medium text-[#1D2129]">开始前提醒</span>
                   </div>
-
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-shrink">重要</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
+                  <div className="space-y-2 ml-3">
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#E8F5E9] text-[#00B42A] text-[12px] rounded-shrink">普通</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={startReminder.normal.days}
+                            onChange={(e) => setStartReminder(prev => ({ ...prev, normal: { ...prev.normal, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            className="w-14 h-8 px-2 border border-[#E5E6EB] rounded text-[12px] text-center"
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
                         <input
-                          type="number"
-                          value={startReminder.important.days}
-                          onChange={(e) => setStartReminder(prev => ({ ...prev, important: { ...prev.important, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
+                          type="time"
+                          value={startReminder.normal.time}
+                          onChange={(e) => setStartReminder(prev => ({ ...prev, normal: { ...prev.normal, time: e.target.value } }))}
+                          className="flex-1 h-8 px-2 border border-[#E5E6EB] rounded text-[12px]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-shrink">重要</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={startReminder.important.days}
+                            onChange={(e) => setStartReminder(prev => ({ ...prev, important: { ...prev.important, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            disabled={!startReminder.normal.days && !startReminder.normal.time}
+                            className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                              startReminder.normal.days || startReminder.normal.time
+                                ? 'border-[#E5E6EB]'
+                                : 'border-[#E5E6EB] bg-[#F0F0F0]'
+                            }`}
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
+                        <input
+                          type="time"
+                          value={startReminder.important.time}
+                          onChange={(e) => setStartReminder(prev => ({ ...prev, important: { ...prev.important, time: e.target.value } }))}
                           disabled={!startReminder.normal.days && !startReminder.normal.time}
-                          className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                          className={`flex-1 h-8 px-2 border rounded text-[12px] ${
                             startReminder.normal.days || startReminder.normal.time
                               ? 'border-[#E5E6EB]'
                               : 'border-[#E5E6EB] bg-[#F0F0F0]'
                           }`}
                         />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
                       </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={startReminder.important.time}
-                        onChange={(e) => setStartReminder(prev => ({ ...prev, important: { ...prev.important, time: e.target.value } }))}
-                        disabled={!startReminder.normal.days && !startReminder.normal.time}
-                        className={`flex-1 h-8 px-2 border rounded text-[12px] ${
-                          startReminder.normal.days || startReminder.normal.time
-                            ? 'border-[#E5E6EB]'
-                            : 'border-[#E5E6EB] bg-[#F0F0F0]'
-                        }`}
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#FFECE8] text-[#FA5151] text-[12px] rounded-shrink">紧急</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#FFECE8] text-[#FA5151] text-[12px] rounded-shrink">紧急</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={startReminder.urgent.days}
+                            onChange={(e) => setStartReminder(prev => ({ ...prev, urgent: { ...prev.urgent, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            disabled={!startReminder.important.days && !startReminder.important.time}
+                            className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                              startReminder.important.days || startReminder.important.time
+                                ? 'border-[#E5E6EB]'
+                                : 'border-[#E5E6EB] bg-[#F0F0F0]'
+                            }`}
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
                         <input
-                          type="number"
-                          value={startReminder.urgent.days}
-                          onChange={(e) => setStartReminder(prev => ({ ...prev, urgent: { ...prev.urgent, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
+                          type="time"
+                          value={startReminder.urgent.time}
+                          onChange={(e) => setStartReminder(prev => ({ ...prev, urgent: { ...prev.urgent, time: e.target.value } }))}
                           disabled={!startReminder.important.days && !startReminder.important.time}
-                          className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                          className={`flex-1 h-8 px-2 border rounded text-[12px] ${
                             startReminder.important.days || startReminder.important.time
                               ? 'border-[#E5E6EB]'
                               : 'border-[#E5E6EB] bg-[#F0F0F0]'
                           }`}
                         />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
                       </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={startReminder.urgent.time}
-                        onChange={(e) => setStartReminder(prev => ({ ...prev, urgent: { ...prev.urgent, time: e.target.value } }))}
-                        disabled={!startReminder.important.days && !startReminder.important.time}
-                        className={`flex-1 h-8 px-2 border rounded text-[12px] ${
-                          startReminder.important.days || startReminder.important.time
-                            ? 'border-[#E5E6EB]'
-                            : 'border-[#E5E6EB] bg-[#F0F0F0]'
-                        }`}
-                      />
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="text-[14px] text-[#1D2129] mb-3 block">结束前提醒</label>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#E8F5E9] text-[#00B42A] text-[12px] rounded-shrink">普通</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
-                        <input
-                          type="number"
-                          value={endReminder.normal.days}
-                          onChange={(e) => setEndReminder(prev => ({ ...prev, normal: { ...prev.normal, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
-                          className="w-14 h-8 px-2 border border-[#E5E6EB] rounded text-[12px] text-center"
-                        />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
-                      </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={endReminder.normal.time}
-                        onChange={(e) => setEndReminder(prev => ({ ...prev, normal: { ...prev.normal, time: e.target.value } }))}
-                        className="flex-1 h-8 px-2 border border-[#E5E6EB] rounded text-[12px]"
-                      />
-                    </div>
+                {/* 结束前提醒 */}
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-1 h-4 bg-[#165DFF] rounded-full"></div>
+                    <span className="text-[13px] font-medium text-[#1D2129]">结束前提醒</span>
                   </div>
-
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-shrink">重要</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
+                  <div className="space-y-2 ml-3">
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#E8F5E9] text-[#00B42A] text-[12px] rounded-shrink">普通</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={endReminder.normal.days}
+                            onChange={(e) => setEndReminder(prev => ({ ...prev, normal: { ...prev.normal, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            className="w-14 h-8 px-2 border border-[#E5E6EB] rounded text-[12px] text-center"
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
                         <input
-                          type="number"
-                          value={endReminder.important.days}
-                          onChange={(e) => setEndReminder(prev => ({ ...prev, important: { ...prev.important, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
+                          type="time"
+                          value={endReminder.normal.time}
+                          onChange={(e) => setEndReminder(prev => ({ ...prev, normal: { ...prev.normal, time: e.target.value } }))}
+                          className="flex-1 h-8 px-2 border border-[#E5E6EB] rounded text-[12px]"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#FFF7E6] text-[#FA8C16] text-[12px] rounded-shrink">重要</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={endReminder.important.days}
+                            onChange={(e) => setEndReminder(prev => ({ ...prev, important: { ...prev.important, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            disabled={!endReminder.normal.days && !endReminder.normal.time}
+                            className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                              endReminder.normal.days || endReminder.normal.time
+                                ? 'border-[#E5E6EB]'
+                                : 'border-[#E5E6EB] bg-[#F0F0F0]'
+                            }`}
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
+                        <input
+                          type="time"
+                          value={endReminder.important.time}
+                          onChange={(e) => setEndReminder(prev => ({ ...prev, important: { ...prev.important, time: e.target.value } }))}
                           disabled={!endReminder.normal.days && !endReminder.normal.time}
-                          className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                          className={`flex-1 h-8 px-2 border rounded text-[12px] ${
                             endReminder.normal.days || endReminder.normal.time
                               ? 'border-[#E5E6EB]'
                               : 'border-[#E5E6EB] bg-[#F0F0F0]'
                           }`}
                         />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
                       </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={endReminder.important.time}
-                        onChange={(e) => setEndReminder(prev => ({ ...prev, important: { ...prev.important, time: e.target.value } }))}
-                        disabled={!endReminder.normal.days && !endReminder.normal.time}
-                        className={`flex-1 h-8 px-2 border rounded text-[12px] ${
-                          endReminder.normal.days || endReminder.normal.time
-                            ? 'border-[#E5E6EB]'
-                            : 'border-[#E5E6EB] bg-[#F0F0F0]'
-                        }`}
-                      />
                     </div>
-                  </div>
 
-                  <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
-                    <span className="px-2 py-1 bg-[#FFECE8] text-[#FA5151] text-[12px] rounded-shrink">紧急</span>
-                    <div className="flex-1 flex items-center gap-2">
-                      <div className="flex items-center">
+                    <div className="flex items-center gap-2 p-3 bg-[#F7F8FA] rounded-xl">
+                      <span className="px-2 py-1 bg-[#FFECE8] text-[#FA5151] text-[12px] rounded-shrink">紧急</span>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex items-center">
+                          <input
+                            type="number"
+                            value={endReminder.urgent.days}
+                            onChange={(e) => setEndReminder(prev => ({ ...prev, urgent: { ...prev.urgent, days: e.target.value } }))}
+                            min="0"
+                            placeholder="0"
+                            disabled={!endReminder.important.days && !endReminder.important.time}
+                            className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                              endReminder.important.days || endReminder.important.time
+                                ? 'border-[#E5E6EB]'
+                                : 'border-[#E5E6EB] bg-[#F0F0F0]'
+                            }`}
+                          />
+                          <span className="text-[12px] text-[#86909C] ml-1">天</span>
+                        </div>
+                        <span className="text-[12px] text-[#86909C]">前</span>
                         <input
-                          type="number"
-                          value={endReminder.urgent.days}
-                          onChange={(e) => setEndReminder(prev => ({ ...prev, urgent: { ...prev.urgent, days: e.target.value } }))}
-                          min="0"
-                          placeholder="0"
+                          type="time"
+                          value={endReminder.urgent.time}
+                          onChange={(e) => setEndReminder(prev => ({ ...prev, urgent: { ...prev.urgent, time: e.target.value } }))}
                           disabled={!endReminder.important.days && !endReminder.important.time}
-                          className={`w-14 h-8 px-2 border rounded text-[12px] text-center ${
+                          className={`flex-1 h-8 px-2 border rounded text-[12px] ${
                             endReminder.important.days || endReminder.important.time
                               ? 'border-[#E5E6EB]'
                               : 'border-[#E5E6EB] bg-[#F0F0F0]'
                           }`}
                         />
-                        <span className="text-[12px] text-[#86909C] ml-1">天</span>
                       </div>
-                      <span className="text-[12px] text-[#86909C]">前</span>
-                      <input
-                        type="time"
-                        value={endReminder.urgent.time}
-                        onChange={(e) => setEndReminder(prev => ({ ...prev, urgent: { ...prev.urgent, time: e.target.value } }))}
-                        disabled={!endReminder.important.days && !endReminder.important.time}
-                        className={`flex-1 h-8 px-2 border rounded text-[12px] ${
-                          endReminder.important.days || endReminder.important.time
-                            ? 'border-[#E5E6EB]'
-                            : 'border-[#E5E6EB] bg-[#F0F0F0]'
-                        }`}
-                      />
                     </div>
                   </div>
                 </div>
@@ -1247,7 +1296,7 @@ export default function CreateTask() {
           onClick={handleCreateTask}
           className="w-full h-12 bg-gradient-to-r from-[#FA8C16] to-[#FF9500] text-white text-[16px] font-semibold rounded-xl hover:opacity-90 transition-opacity"
         >
-          创建任务
+          创建日历
         </button>
       </div>
 
