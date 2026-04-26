@@ -15,36 +15,34 @@ import { createBrowserRouter } from 'react-router';
 
 // 任务模块页面
 import TaskList from './modules/task/pages/TaskList';
+import TaskDetail from './modules/task/pages/TaskDetail';
+import TaskExecute from './modules/task/pages/TaskExecute';
+import RoadmapTask from './modules/task/pages/RoadmapTask';
+import SpeechTask from './modules/task/pages/SpeechTask';
+import AudioTask from './modules/task/pages/AudioTask';
+import CreateTask from './modules/task/pages/CreateTask';
+import MyTasks from './modules/task/pages/MyTasks';
+import PointDataCollection from './modules/dashboard/pages/PointDataCollection';
+import ContentGeneration from './modules/dashboard/pages/ContentGeneration';
+import MediaGeneration from './modules/dashboard/pages/MediaGeneration';
 
 // 客户模块页面
 import CustomerList from './modules/customer/pages/CustomerList';
+import CustomerDetail from './modules/customer/pages/CustomerDetail';
+import CustomerAdd from './modules/customer/pages/CustomerAdd';
+import CustomerEdit from './modules/customer/pages/CustomerEdit';
+import CustomerRecordList from './modules/customer/pages/CustomerRecordList';
+import CustomerSelect from './modules/customer/pages/CustomerSelect';
 
 // 录音模块页面
 import RecordingList from './modules/recording/pages/RecordingList';
+import RecordingUpload from './modules/recording/pages/RecordingUpload';
+import RecordingResult from './modules/recording/pages/RecordingResult';
+import BuildingSelect from './modules/dashboard/pages/BuildingSelect';
 
 // 仪表盘模块页面
 import ServiceTools from './modules/dashboard/pages/ServiceTools';
 import Profile from './modules/dashboard/pages/Profile';
-
-// 临时导入旧页面（待迁移）
-import TaskDetail from './pages/TaskDetail';
-import TaskExecute from './pages/TaskExecute';
-import RoadmapTask from './pages/RoadmapTask';
-import SpeechTask from './pages/SpeechTask';
-import AudioTask from './pages/AudioTask';
-import CreateTask from './pages/CreateTask';
-import MyTasks from './pages/MyTasks';
-import PointDataCollection from './pages/PointDataCollection';
-import ContentGeneration from './pages/ContentGeneration';
-import MediaGeneration from './pages/MediaGeneration';
-import CustomerDetail from './pages/CustomerDetail';
-import CustomerAdd from './pages/CustomerAdd';
-import CustomerEdit from './pages/CustomerEdit';
-import CustomerRecordList from './pages/CustomerRecordList';
-import BuildingSelect from './pages/BuildingSelect';
-import CustomerSelect from './pages/CustomerSelect';
-import RecordingUpload from './pages/RecordingUpload';
-import RecordingResult from './pages/RecordingResult';
 
 export const router = createBrowserRouter([
   // 首页重定向到任务列表
