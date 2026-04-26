@@ -8,7 +8,6 @@ export default function RecordingUpload() {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [privacyChecked, setPrivacyChecked] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [building, setBuilding] = useState<any>(null);
   const [customer, setCustomer] = useState<any>(null);
@@ -27,6 +26,9 @@ export default function RecordingUpload() {
       }
       if (location.state.selectedCustomer) {
         setCustomer(location.state.selectedCustomer);
+      }
+      if (location.state.selectedFile) {
+        setSelectedFile(location.state.selectedFile);
       }
     }
   }, [location.state]);
@@ -65,7 +67,7 @@ export default function RecordingUpload() {
   };
 
   const handleSubmit = () => {
-    if (!selectedFile || !privacyChecked) return;
+    if (!selectedFile) return;
 
     setIsUploading(true);
     setUploadProgress(0);
@@ -78,7 +80,8 @@ export default function RecordingUpload() {
           clearInterval(interval);
           setTimeout(() => {
             setIsUploading(false);
-            navigate('/recording/list');
+            navigate('/recording/list'); // 导航到录音列表页面
+            // navigate(-1); // 返回上一页
           }, 1000);
           return 100;
         }
@@ -88,11 +91,23 @@ export default function RecordingUpload() {
   };
 
   const goToBuildingSelect = () => {
-    navigate('/recording/building-select');
+    navigate('/recording/building-select', {
+      state: { 
+        currentBuilding: building, 
+        currentCustomer: customer,
+        currentFile: selectedFile
+      }
+    });
   };
 
   const goToCustomerSelect = () => {
-    navigate('/recording/customer-select');
+    navigate('/recording/customer-select', {
+      state: { 
+        currentBuilding: building, 
+        currentCustomer: customer,
+        currentFile: selectedFile
+      }
+    });
   };
 
   const clearBuilding = () => {
@@ -119,7 +134,7 @@ export default function RecordingUpload() {
     <div className="min-h-screen bg-[#F7F8FA] pb-24">
       {/* 顶部导航 */}
       <header className="bg-white border-b border-[#E5E6EB] px-4 py-3 flex items-center justify-between sticky top-0 z-20">
-        <button onClick={() => navigate('/recording/list')} className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-lg active:bg-white/30 transition-colors">
+        <button onClick={() => navigate(-1)} className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-lg active:bg-white/30 transition-colors">
           <ArrowLeft className="w-5 h-5 text-[#1D2129]" />
         </button>
         <h1 className="text-[17px] font-semibold text-[#1D2129]">上传录音</h1>
@@ -357,8 +372,8 @@ export default function RecordingUpload() {
       <div className="p-4 fixed bottom-0 left-0 right-0 bg-[#F7F8FA]">
         <button 
           onClick={handleSubmit}
-          disabled={!selectedFile || !privacyChecked || isUploading}
-          className={`w-full h-12 rounded-xl flex items-center justify-center gap-2 transition-all ${selectedFile && privacyChecked && !isUploading ? 'bg-gradient-to-r from-[#FA8C16] to-[#FF9500] text-white shadow-lg active:opacity-90' : 'bg-[#E5E6EB] text-[#86909C] cursor-not-allowed'}`}
+          disabled={!selectedFile || isUploading}
+          className={`w-full h-12 rounded-xl flex items-center justify-center gap-2 transition-all ${selectedFile && !isUploading ? 'bg-gradient-to-r from-[#FA8C16] to-[#FF9500] text-white shadow-lg active:opacity-90' : 'bg-[#E5E6EB] text-[#86909C] cursor-not-allowed'}`}
         >
           {isUploading ? (
             <>
@@ -366,7 +381,7 @@ export default function RecordingUpload() {
               <span className="text-[15px] font-semibold">提交中...</span>
             </>
           ) : (
-            <span className="text-[15px] font-semibold">提交分析</span>
+            <span className="text-[15px] font-semibold">开始客情分析</span>
           )}
         </button>
       </div>

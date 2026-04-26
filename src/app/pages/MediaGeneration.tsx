@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Download, Eye, FolderPlus, Check, Play, Image as ImageIcon, Film, X } from 'lucide-react';
+import { ArrowLeft, Download, Eye, FolderPlus, Check, Play, Image as ImageIcon, Film, X, Copy, Edit3 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
 
 type Channel = 'xiaohongshu' | 'moments' | 'wechat' | 'video';
@@ -48,7 +48,7 @@ export default function MediaGeneration() {
   const [toastMessage, setToastMessage] = useState('');
   const [showLibraryModal, setShowLibraryModal] = useState(false);
 
-  const houseName = '中海汇德里';
+  const houseName = '中海汇德里集攻活动';
   const selectedCount = mediaItems.filter(item => item.selected).length;
 
   const groupedMedia = {
@@ -134,7 +134,7 @@ export default function MediaGeneration() {
           >
             <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-[18px] font-semibold text-white">图片视频生成</h1>
+          <h1 className="text-[18px] font-semibold text-white">AI图文视频创作</h1>
           <div className="w-9"></div>
         </div>
 
@@ -367,7 +367,46 @@ export default function MediaGeneration() {
             <span className={`text-[12px] px-2 py-1 rounded-lg font-medium ${getChannelColor('video')}`}>
               {CHANNEL_NAMES.video}
             </span>
-            <span className="text-[13px] text-[#86909C]">{groupedMedia.videoCover.length}个封面 + {groupedMedia.video.length}个视频</span>
+            <span className="text-[13px] text-[#86909C]">{groupedMedia.video.length}个视频 + {groupedMedia.videoCover.length}个封面</span>
+          </div>
+
+          {/* 视频 */}
+          <div className="mb-4">
+            <div className="text-[13px] font-medium text-[#1D2129] mb-2">视频</div>
+            {groupedMedia.video.map(item => (
+              <div
+                key={item.id}
+                className={`relative rounded-xl overflow-hidden bg-black mb-3 flex justify-center ${
+                  item.selected ? 'ring-2 ring-[#165DFF]' : ''
+                }`}
+              >
+                <video
+                  src="https://www.w3schools.com/html/mov_bbb.mp4"
+                  poster={`https://picsum.photos/seed/${item.thumbnail}/800/450`}
+                  controls
+                  className="max-w-full max-h-[400px]"
+                />
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleSelection(item.id); }}
+                  className="absolute top-2 right-2 w-6 h-6 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center z-10"
+                >
+                  {item.selected ? (
+                    <Check className="w-4 h-4 text-white" />
+                  ) : (
+                    <div className="w-4 h-4 border-2 border-white rounded-full"></div>
+                  )}
+                </button>
+              </div>
+            ))}
+            <div className="flex gap-2">
+              <button
+                onClick={() => downloadChannel('video', 'video')}
+                className="flex-1 py-2.5 bg-[#F7F8FA] border border-[#E5E6EB] rounded-lg text-[13px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                下载视频
+              </button>
+            </div>
           </div>
 
           {/* 封面图 */}
@@ -436,42 +475,65 @@ export default function MediaGeneration() {
             </div>
           </div>
 
-          {/* 视频 */}
-          <div>
-            <div className="text-[13px] font-medium text-[#1D2129] mb-2">营销视频</div>
-            {groupedMedia.video.map(item => (
-              <div
-                key={item.id}
-                className={`relative rounded-xl overflow-hidden bg-black mb-3 ${
-                  item.selected ? 'ring-2 ring-[#165DFF]' : ''
-                }`}
-              >
-                <video
-                  src="https://www.w3schools.com/html/mov_bbb.mp4"
-                  poster={`https://picsum.photos/seed/${item.thumbnail}/800/450`}
-                  controls
-                  className="w-full"
-                />
+          {/* 标题 */}
+          <div className="mb-4">
+            <div className="text-[13px] font-medium text-[#1D2129] mb-2">视频标题</div>
+            <div className="bg-[#F7F8FA] rounded-xl p-4 border border-[#E5E6EB]">
+              <div className="text-[14px] text-[#1D2129] mb-2">中海汇德里 | 浦东张江核心品质住宅</div>
+              <div className="flex gap-2">
                 <button
-                  onClick={(e) => { e.stopPropagation(); toggleSelection(item.id); }}
-                  className="absolute top-2 right-2 w-6 h-6 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center z-10"
+                  onClick={() => {
+                    navigator.clipboard.writeText('中海汇德里 | 浦东张江核心品质住宅');
+                    showMessage('标题复制成功');
+                  }}
+                  className="flex-1 py-2 bg-white border border-[#E5E6EB] rounded-lg text-[12px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
                 >
-                  {item.selected ? (
-                    <Check className="w-4 h-4 text-white" />
-                  ) : (
-                    <div className="w-4 h-4 border-2 border-white rounded-full"></div>
-                  )}
+                  <Copy className="w-4 h-4" />
+                  复制标题
+                </button>
+                <button
+                  onClick={() => {
+                    showMessage('编辑话题词');
+                  }}
+                  className="flex-1 py-2 bg-white border border-[#E5E6EB] rounded-lg text-[12px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
+                >
+                  <Edit3 className="w-4 h-4" />
+                  编辑标题
                 </button>
               </div>
-            ))}
-            <div className="flex gap-2">
-              <button
-                onClick={() => downloadChannel('video', 'video')}
-                className="flex-1 py-2.5 bg-[#F7F8FA] border border-[#E5E6EB] rounded-lg text-[13px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
-              >
-                <Download className="w-4 h-4" />
-                下载视频
-              </button>
+            </div>
+          </div>
+
+          {/* 话题词 */}
+          <div className="mb-4">
+            <div className="text-[13px] font-medium text-[#1D2129] mb-2">话题词</div>
+            <div className="bg-[#F7F8FA] rounded-xl p-4 border border-[#E5E6EB]">
+              <div className="flex flex-wrap gap-2 mb-3">
+                <span className="px-3 py-1.5 bg-[#E8F3FF] text-[#165DFF] rounded-full text-[12px] font-medium border border-[#165DFF]/20">#上海买房</span>
+                <span className="px-3 py-1.5 bg-[#E8F3FF] text-[#165DFF] rounded-full text-[12px] font-medium border border-[#165DFF]/20">#浦东楼盘</span>
+                <span className="px-3 py-1.5 bg-[#E8F3FF] text-[#165DFF] rounded-full text-[12px] font-medium border border-[#165DFF]/20">#中海地产</span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('#上海买房 #浦东楼盘 #中海地产');
+                    showMessage('话题词复制成功');
+                  }}
+                  className="flex-1 py-2 bg-white border border-[#E5E6EB] rounded-lg text-[12px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
+                >
+                  <Copy className="w-4 h-4" />
+                  复制话题词
+                </button>
+                <button
+                  onClick={() => {
+                    showMessage('编辑功能开发中');
+                  }}
+                  className="flex-1 py-2 bg-white border border-[#E5E6EB] rounded-lg text-[12px] text-[#4E5969] flex items-center justify-center gap-1.5 active:bg-[#E5E6EB] transition-colors"
+                >
+                  <Edit3 className="w-4 h-4" />
+                  编辑话题词
+                </button>
+              </div>
             </div>
           </div>
         </div>

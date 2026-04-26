@@ -23,7 +23,7 @@ export default function Profile() {
   const [timeFilter, setTimeFilter] = useState<'today' | 'week' | 'month'>('today');
 
   const menuItems1 = [
-    { icon: CheckSquare, title: '任务管理', path: '/my-tasks', badge: null },
+    { icon: CheckSquare, title: '我的内容日历', path: '/my-tasks', badge: null },
     { icon: Users, title: '客户管理', path: '/customer/list', badge: null },
     { icon: CalendarCheck, title: '活动中心', path: null, badge: '签到有礼' },
     { icon: Zap, title: '算力', path: null, badge: null },

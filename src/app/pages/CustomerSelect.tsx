@@ -33,9 +33,13 @@ export default function CustomerSelect() {
     if (!selectedId) return;
     const selectedCustomer = customerData.find(c => c.id === selectedId);
     if (selectedCustomer) {
-      // 返回到上传页面并传递选中的客户信息
+      // 返回到上传页面并传递选中的客户信息和当前的楼盘信息、文件信息
       navigate('/recording/upload', {
-        state: { selectedCustomer }
+        state: {
+          selectedCustomer,
+          selectedBuilding: location.state?.currentBuilding,
+          selectedFile: location.state?.currentFile
+        }
       });
     }
   };
@@ -44,7 +48,13 @@ export default function CustomerSelect() {
     <div className="min-h-screen bg-[#F7F8FA]">
       {/* 顶部导航 */}
       <header className="bg-[#FA8C16] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-20">
-        <button onClick={() => navigate('/recording/upload')} className="flex items-center gap-1">
+        <button onClick={() => navigate('/recording/upload', {
+          state: {
+            selectedBuilding: location.state?.currentBuilding,
+            selectedCustomer: location.state?.currentCustomer,
+            selectedFile: location.state?.currentFile
+          }
+        })} className="flex items-center gap-1">
           <ChevronLeft className="w-5 h-5" />
           <span className="text-[15px]">返回</span>
         </button>

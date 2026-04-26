@@ -29,9 +29,13 @@ export default function BuildingSelect() {
     if (!selectedId) return;
     const selectedBuilding = buildingData.find(b => b.id === selectedId);
     if (selectedBuilding) {
-      // 返回到上传页面并传递选中的楼盘信息
+      // 返回到上传页面并传递选中的楼盘信息和当前的客户信息、文件信息
       navigate('/recording/upload', {
-        state: { selectedBuilding }
+        state: {
+          selectedBuilding,
+          selectedCustomer: location.state?.currentCustomer,
+          selectedFile: location.state?.currentFile
+        }
       });
     }
   };
@@ -40,7 +44,13 @@ export default function BuildingSelect() {
     <div className="min-h-screen bg-[#F7F8FA]">
       {/* 顶部导航 */}
       <header className="bg-white border-b border-[#E5E6EB] px-4 py-3 flex items-center justify-between sticky top-0 z-20">
-        <button onClick={() => navigate('/recording/upload')} className="flex items-center gap-1 text-[#FA8C16]">
+        <button onClick={() => navigate('/recording/upload', {
+          state: {
+            selectedBuilding: location.state?.currentBuilding,
+            selectedCustomer: location.state?.currentCustomer,
+            selectedFile: location.state?.currentFile
+          }
+        })} className="flex items-center gap-1 text-[#FA8C16]">
           <ChevronLeft className="w-5 h-5" />
           <span className="text-[15px]">返回</span>
         </button>

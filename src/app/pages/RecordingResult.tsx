@@ -259,7 +259,7 @@ export default function RecordingResult() {
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div className="flex-1 text-center mr-10">
-          <h1 className="text-[16px] font-semibold text-[#1D2129]">分析结果</h1>
+          <h1 className="text-[16px] font-semibold text-[#1D2129]">客情洞察报告</h1>
         </div>
         <button onClick={handleShare} className="text-[#FA8C16] p-1">
           <Share2 className="w-5 h-5" />
@@ -329,7 +329,7 @@ export default function RecordingResult() {
       {recording.status === 'completed' && recording.analysis && (
         <div className="m-4 bg-white rounded-2xl shadow-sm p-4">
           <div className="markdown-body">
-            <h1 className="text-[18px] font-semibold text-[#1D2129] mb-4 pb-2 border-b-2 border-[#FA8C16]">📊 录音分析报告</h1>
+            <h1 className="text-[18px] font-semibold text-[#1D2129] mb-4 pb-2 border-b-2 border-[#FA8C16]">📊 客情洞察报告</h1>
             
             <h2 className="text-[15px] font-semibold text-[#1D2129] mt-6 mb-2">综合评分</h2>
             <p className="text-[14px] text-[#4E5969] mb-4">

@@ -12,7 +12,7 @@ export default function TaskList() {
   const [taskList, setTaskList] = useState([
     {
       id: 1,
-      title: '中海汇德里探盘任务',
+      title: '中海汇德里集攻活动',
       type: '探盘',
       initiator: '张经理',
       deadline: '2026-04-19T18:00:00',
@@ -42,7 +42,7 @@ export default function TaskList() {
     },
     {
       id: 2,
-      title: '绿地海湾探盘任务',
+      title: '绿地海湾集攻活动',
       type: '探盘',
       initiator: '李主管',
       deadline: '2026-04-21T12:00:00',
@@ -69,8 +69,8 @@ export default function TaskList() {
     },
     {
       id: 3,
-      title: '保利天悦话术训练',
-      type: '话术训练',
+      title: '保利天悦AI顾问陪练',
+      type: 'AI陪练',
       initiator: '王总监',
       deadline: '2026-04-19T10:00:00',
       status: 'completed',
@@ -91,8 +91,8 @@ export default function TaskList() {
     },
     {
       id: 4,
-      title: '龙湖天街录音分析',
-      type: '录音分析',
+      title: '龙湖天街AI客情分析',
+      type: 'AI客情',
       initiator: '刘主管',
       deadline: '2026-04-18T14:00:00',
       status: 'overtime',
@@ -203,7 +203,7 @@ export default function TaskList() {
       id: 1,
       type: 'task',
       title: '新任务分配',
-      content: '你收到了一个新的探盘任务：中海汇德里',
+      content: '你收到了一个新的集攻活动：中海汇德里',
       time: '刚刚',
       isRead: false
     },
@@ -346,7 +346,7 @@ export default function TaskList() {
   return (
     <div className="h-screen flex flex-col bg-[#F7F8FA]">
       <header className="bg-white border-b border-[#E5E6EB] px-4 py-3 flex items-center justify-between sticky top-0 z-20">
-        <h1 className="text-[17px] font-semibold text-[#1D2129]">任务中心</h1>
+        <h1 className="text-[17px] font-semibold text-[#1D2129]">内容日历</h1>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowFilterModal(true)}
@@ -469,7 +469,7 @@ export default function TaskList() {
                       >
                         <div className="flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-[#FA8C16]" />
-                          <span className="text-[13px] font-semibold text-[#1D2129]">探盘路书</span>
+                          <span className="text-[13px] font-semibold text-[#1D2129]">AI探盘助手</span>
                         </div>
                         <div className="flex items-center gap-2 text-[12px]">
                           {task.parallelTasks.roadmap.stages.map((stage: any, index: number) => (
@@ -496,7 +496,7 @@ export default function TaskList() {
                       >
                         <div className="flex items-center gap-2">
                           <FileText className="w-4 h-4 text-[#165DFF]" />
-                          <span className="text-[13px] font-semibold text-[#1D2129]">话术训练</span>
+                          <span className="text-[13px] font-semibold text-[#1D2129]">AI顾问陪练</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-[12px] text-[#1D2129]">
@@ -519,7 +519,7 @@ export default function TaskList() {
                       >
                         <div className="flex items-center gap-2">
                           <Mic className="w-4 h-4 text-[#00B42A]" />
-                          <span className="text-[13px] font-semibold text-[#1D2129]">录音分析</span>
+                          <span className="text-[13px] font-semibold text-[#1D2129]">AI客情分析</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-[12px] text-[#1D2129]">
@@ -593,10 +593,10 @@ export default function TaskList() {
                 <div className="flex gap-2 flex-wrap">
                   {[
                     { value: 'all', label: '全部' },
-                    { value: '探盘', label: '探盘任务' },
-                    { value: '话术训练', label: '话术训练' },
-                    { value: '录音分析', label: '录音分析' },
-                    { value: '文案', label: '文案生成' },
+                    { value: '集攻活动', label: '集攻活动' },
+                    { value: 'AI顾问陪练', label: 'AI顾问陪练' },
+                    { value: 'AI客情', label: 'AI客情' },
+                    { value: '文案', label: '每日选题' },
                     { value: 'custom', label: '自定义' },
                   ].map((item) => {
                     const isSelected = filters.type.includes(item.value);

@@ -38,7 +38,7 @@ export default function MyTasks() {
   const [taskList, setTaskList] = useState<Task[]>([
     {
       id: 1,
-      title: '中海汇德里探盘任务',
+      title: '中海汇德里集攻活动',
       type: '探盘',
       createTime: '2026-04-16 10:00',
       deadline: '2026-04-19T18:00:00',
@@ -49,7 +49,7 @@ export default function MyTasks() {
     },
     {
       id: 2,
-      title: '绿地海湾探盘任务',
+      title: '绿地海湾集攻活动',
       type: '探盘',
       createTime: '2026-04-17 09:00',
       deadline: '2026-04-21T12:00:00',
@@ -59,8 +59,8 @@ export default function MyTasks() {
     },
     {
       id: 3,
-      title: '保利天悦话术训练',
-      type: '话术训练',
+      title: '保利天悦AI顾问陪练',
+      type: 'AI陪练',
       createTime: '2026-04-15 14:00',
       deadline: '2026-04-18T15:00:00',
       status: 'completed',
@@ -70,7 +70,7 @@ export default function MyTasks() {
     {
       id: 4,
       title: '万科城营销方案',
-      type: '文案',
+      type: '每日选题',
       createTime: '2026-04-20 11:00',
       deadline: '2026-04-25T18:00:00',
       status: 'draft',
@@ -79,8 +79,8 @@ export default function MyTasks() {
     },
     {
       id: 5,
-      title: '融创文旅城推广任务',
-      type: '推广',
+      title: '融创文旅城邀约活动',
+      type: 'AI客情',
       createTime: '2026-04-10 08:00',
       deadline: '2026-04-15T18:00:00',
       status: 'stopped',
@@ -91,7 +91,7 @@ export default function MyTasks() {
     {
       id: 6,
       title: '龙湖天街招商任务',
-      type: '招商',
+      type: '自定义',
       createTime: '2026-04-05 10:00',
       deadline: '2026-04-10T18:00:00',
       status: 'expired',
@@ -197,7 +197,7 @@ export default function MyTasks() {
         >
           <ArrowLeft className="w-5 h-5 text-[#1D2129]" />
         </button>
-        <h1 className="text-[17px] font-semibold text-[#1D2129]">我创建的任务</h1>
+        <h1 className="text-[17px] font-semibold text-[#1D2129]">我的创建的内容日历</h1>
         <button
           onClick={() => navigate('/create')}
           className="p-2 -mr-2 hover:bg-gray-50 rounded-lg transition-colors"

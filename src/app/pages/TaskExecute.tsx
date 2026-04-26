@@ -14,7 +14,7 @@ export default function TaskExecute() {
 
   // 模拟任务数据
   const taskData = {
-    houseName: '中海汇德里',
+    houseName: '中海汇德里集攻活动',
     address: '浦东新区张江高科技园区',
     deadline: '2026-04-08 18:00',
     currentStage: currentStep
@@ -26,18 +26,18 @@ export default function TaskExecute() {
     return [
       {
         id: 1,
-        name: '点位资料收集',
+        name: 'AI卖点采集',
         status: current >= 1 ? 'completed' : 'pending',
         time: current >= 1 ? '10:30:00' : ''
       },
       {
         id: 2,
-        name: '文案生成',
+        name: 'AI一键成稿',
         status: current >= 2 ? 'completed' : (current >= 1 ? 'active' : 'pending')
       },
       {
         id: 3,
-        name: '图片视频生成',
+        name: 'AI图文视频创作',
         status: current >= 3 ? 'completed' : (current >= 2 ? 'active' : 'pending')
       }
     ];
@@ -112,9 +112,9 @@ export default function TaskExecute() {
         {stage.status === 'completed' && (
           <div className="flex items-center justify-between">
             <span className="text-[13px] text-[#00B42A]">
-              {stage.id === 1 && '✅ 已提交素材'}
-              {stage.id === 2 && '✅ 文案已确认'}
-              {stage.id === 3 && '✅ 图片视频生成完成'}
+              {stage.id === 1 && '✅ AI卖点采集完成'}
+              {stage.id === 2 && '✅ AI一键成稿完成'}
+              {stage.id === 3 && '✅ AI图文视频创作完成'}
             </span>
             <button
               onClick={(e) => {
@@ -139,13 +139,13 @@ export default function TaskExecute() {
         {stage.status === 'active' && (
           <div className="space-y-3">
             {stage.id === 1 && (
-              <p className="text-[13px] text-[#86909C]">请到达楼盘现场收集点位资料</p>
+              <p className="text-[13px] text-[#86909C]">请到达楼盘现场进行AI卖点采集</p>
             )}
             {stage.id === 2 && (
-              <p className="text-[13px] text-[#86909C]">AI将根据素材生成营销文案</p>
+              <p className="text-[13px] text-[#86909C]">AI将根据采集的卖点一键生成营销文案</p>
             )}
             {stage.id === 3 && (
-              <p className="text-[13px] text-[#86909C]">AI将生成图片和视频营销素材</p>
+              <p className="text-[13px] text-[#86909C]">AI将根据文案进行图文视频创作</p>
             )}
             {readonly ? (
               <button
@@ -170,9 +170,9 @@ export default function TaskExecute() {
                 }}
                 className="w-full flex items-center justify-center gap-1.5 py-3 bg-gradient-to-r from-[#FA8C16] to-[#FF9500] text-white rounded-xl text-[14px] font-medium active:scale-[0.98] transition-all shadow-sm"
               >
-                {stage.id === 1 && '进入资料收集'}
-                {stage.id === 2 && '开始生成文案'}
-                {stage.id === 3 && '查看生成结果'}
+                {stage.id === 1 && '开始AI卖点采集'}
+                {stage.id === 2 && '开始AI一键成稿'}
+                {stage.id === 3 && '查看AI图文视频创作结果'}
                 <ChevronRight className="w-4 h-4" />
               </button>
             )}
@@ -182,9 +182,9 @@ export default function TaskExecute() {
         {stage.status === 'pending' && (
           <div className="space-y-3">
             <p className="text-[13px] text-[#86909C]">
-              {stage.id === 1 && '请到达楼盘现场收集点位资料'}
-              {stage.id === 2 && '请先完成点位资料收集'}
-              {stage.id === 3 && '请先完成文案确认'}
+              {stage.id === 1 && '请到达楼盘现场进行AI卖点采集'}
+              {stage.id === 2 && '请先完成AI卖点采集'}
+              {stage.id === 3 && '请先完成AI一键成稿'}
             </p>
             {readonly ? (
               <div className="w-full flex items-center justify-center gap-2 py-3 bg-[#F7F8FA] text-[#86909C] rounded-xl text-[13px]">
@@ -199,7 +199,7 @@ export default function TaskExecute() {
                 }}
                 className="w-full flex items-center justify-center gap-1.5 py-3 bg-gradient-to-r from-[#FA8C16] to-[#FF9500] text-white rounded-xl text-[14px] font-medium active:scale-[0.98] transition-all shadow-sm"
               >
-                进入资料收集 <ChevronRight className="w-4 h-4" />
+                开始AI卖点采集 <ChevronRight className="w-4 h-4" />
               </button>
             ) : (
               <div className="w-full flex items-center justify-center gap-2 py-3 bg-[#F7F8FA] text-[#86909C] rounded-xl text-[13px]">
@@ -225,7 +225,7 @@ export default function TaskExecute() {
         </button>
         <div className="flex-1 text-center">
           <h1 className="text-[17px] font-semibold text-[#1D2129]">
-            {readonly ? '查看执行详情' : '探盘任务详情'}
+            {readonly ? '查看执行详情' : '集攻活动详情'}
           </h1>
           {readonly && executorName && (
             <div className="text-[12px] text-[#86909C] mt-0.5">执行人：{executorName}</div>

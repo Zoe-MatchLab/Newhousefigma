@@ -15,7 +15,7 @@ export default function SpeechTask() {
         >
           <ArrowLeft className="w-5 h-5 text-[#1D2129]" />
         </button>
-        <h1 className="text-[17px] font-semibold text-[#1D2129]">话术训练</h1>
+        <h1 className="text-[17px] font-semibold text-[#1D2129]">AI顾问陪练</h1>
         <div className="w-9" />
       </header>
 
@@ -23,9 +23,9 @@ export default function SpeechTask() {
       <div className="p-4">
         <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
           <FileText className="w-12 h-12 text-[#165DFF] mx-auto mb-4" />
-          <h2 className="text-[17px] font-semibold text-[#1D2129] mb-2">话术训练执行页</h2>
+          <h2 className="text-[17px] font-semibold text-[#1D2129] mb-2">AI顾问陪练执行页</h2>
           <p className="text-[14px] text-[#86909C]">任务 ID: {id}</p>
-          <p className="text-[13px] text-[#4E5969] mt-4">这里是话术训练任务的执行界面</p>
+          <p className="text-[13px] text-[#4E5969] mt-4">这里是AI顾问陪练任务的执行界面</p>
         </div>
       </div>
     </div>
