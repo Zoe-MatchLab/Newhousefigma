@@ -37,7 +37,7 @@ export default function TaskExecute() {
       },
       {
         id: 3,
-        name: 'AI图文视频创作',
+        name: 'AI图文视频',
         status: current >= 3 ? 'completed' : (current >= 2 ? 'active' : 'pending')
       }
     ];
@@ -114,7 +114,7 @@ export default function TaskExecute() {
             <span className="text-[13px] text-[#00B42A]">
               {stage.id === 1 && '✅ AI卖点采集完成'}
               {stage.id === 2 && '✅ AI一键成稿完成'}
-              {stage.id === 3 && '✅ AI图文视频创作完成'}
+              {stage.id === 3 && '✅ AI图文视频完成'}
             </span>
             <button
               onClick={(e) => {
@@ -172,7 +172,7 @@ export default function TaskExecute() {
               >
                 {stage.id === 1 && '开始AI卖点采集'}
                 {stage.id === 2 && '开始AI一键成稿'}
-                {stage.id === 3 && '查看AI图文视频创作结果'}
+                {stage.id === 3 && '查看AI图文视频结果'}
                 <ChevronRight className="w-4 h-4" />
               </button>
             )}

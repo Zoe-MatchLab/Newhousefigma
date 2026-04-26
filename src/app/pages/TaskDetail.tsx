@@ -147,9 +147,9 @@ export default function TaskDetail() {
             status: 'in-progress',
             progress: { completed: 1, total: 3 },
             children: [
-              { name: '点位资料收集', status: 'completed', progress: 100 },
-              { name: '文案生成', status: 'in-progress', progress: 60 },
-              { name: '图片视频生成', status: 'pending', progress: 0 },
+              { name: 'AI卖点采集', status: 'completed', progress: 100 },
+              { name: 'AI一键成稿', status: 'in-progress', progress: 60 },
+              { name: 'AI图文视频', status: 'pending', progress: 0 },
             ],
           },
           {
@@ -190,9 +190,9 @@ export default function TaskDetail() {
             status: 'completed',
             progress: { completed: 3, total: 3 },
             children: [
-              { name: '点位资料收集', status: 'completed', progress: 100 },
-              { name: '文案生成', status: 'completed', progress: 100 },
-              { name: '图片视频生成', status: 'completed', progress: 100 },
+              { name: 'AI卖点采集', status: 'completed', progress: 100 },
+              { name: 'AI一键成稿', status: 'completed', progress: 100 },
+              { name: 'AI图文视频', status: 'completed', progress: 100 },
             ],
           },
           {
@@ -231,9 +231,9 @@ export default function TaskDetail() {
             status: 'pending',
             progress: { completed: 0, total: 3 },
             children: [
-              { name: '点位资料收集', status: 'pending' },
-              { name: '文案生成', status: 'pending' },
-              { name: '图片视频生成', status: 'pending' },
+              { name: 'AI卖点采集', status: 'pending' },
+              { name: 'AI一键成稿', status: 'pending' },
+              { name: 'AI图文视频', status: 'pending' },
             ],
           },
         ],
@@ -251,9 +251,9 @@ export default function TaskDetail() {
             status: 'completed',
             progress: { completed: 3, total: 3 },
             children: [
-              { name: '点位资料收集', status: 'completed', progress: 100 },
-              { name: '文案生成', status: 'completed', progress: 100 },
-              { name: '图片视频生成', status: 'completed', progress: 100 },
+              { name: 'AI卖点采集', status: 'completed', progress: 100 },
+              { name: 'AI一键成稿', status: 'completed', progress: 100 },
+              { name: 'AI图文视频', status: 'completed', progress: 100 },
             ],
           },
           {
@@ -484,11 +484,11 @@ export default function TaskDetail() {
             </div>
           </div>
 
-          {/* 点位采集 */}
+          {/* AI卖点采集 */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-[14px] text-[#1D2129]">点位采集</label>
+                <label className="text-[14px] text-[#1D2129]">AI卖点采集</label>
               </div>
               
               <div className="flex items-center justify-between mb-3 p-3 bg-[#F7F8FA] rounded-xl">
@@ -531,7 +531,7 @@ export default function TaskDetail() {
                   <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl">
-                  <span className="text-[13px] text-[#4E5969]">AI图文视频创作</span>
+                  <span className="text-[13px] text-[#4E5969]">AI图文视频</span>
                   <span className="text-[13px] px-2 py-0.5 bg-[#E8F5E9] text-[#00B42A] rounded">已启用</span>
                 </div>
               </div>

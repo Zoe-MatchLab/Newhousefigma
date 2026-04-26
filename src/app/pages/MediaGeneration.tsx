@@ -134,7 +134,7 @@ export default function MediaGeneration() {
           >
             <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <h1 className="text-[18px] font-semibold text-white">AI图文视频创作</h1>
+          <h1 className="text-[18px] font-semibold text-white">AI图文视频</h1>
           <div className="w-9"></div>
         </div>
 
